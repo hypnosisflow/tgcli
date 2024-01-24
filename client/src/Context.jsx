@@ -1,6 +1,5 @@
 import { createContext, useState } from "react"
 
-
 export const DataContext = createContext({});
 
 export const DataContextWrapper = ({ children }) => {
@@ -23,7 +22,6 @@ export const DataContextWrapper = ({ children }) => {
     const handleDeleteUser = (data) => {
         setChatData(prev => ({ ...prev, data: data }))
     }
-
 
     return (
         <DataContext.Provider value={{ channelData, handleChannelData, chatData, handleChatData, database, handleDatabase, handleDeleteUser }}>

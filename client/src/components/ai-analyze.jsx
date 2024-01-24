@@ -13,7 +13,7 @@ export const AIAnalyze = ({ arr }) => {
     const str = 'Cкажи мне про каждое выражение, которое заканчивается ||, оно позитивное, нейтральное или негативное. Ответ дай массивом с числами где: {негативное: -1, позиитвное: 1; нейтральное: 0}. '
     const subStr = targetUser?.msgs.map(i => i.msg + '||')
 
-    const openai = new OpenAI({ apiKey: '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', dangerouslyAllowBrowser: true });
+    const openai = new OpenAI({ apiKey: import.meta.env.VITE_OPENAI_API_KEY, dangerouslyAllowBrowser: true });
 
     async function request() {
         setGptReponse(null)

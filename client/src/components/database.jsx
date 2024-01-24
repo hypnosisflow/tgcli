@@ -57,7 +57,6 @@ export const Database = () => {
 
     const view = renderCards(database)
 
-
     return (
         <div className='h-[800px] w-full bg-white rounded-2xl py-2 relative'>
             <p className='text-black text-xl font-semibold'>database</p>
