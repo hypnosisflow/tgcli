@@ -3,18 +3,17 @@ const { StringSession } = require("telegram/sessions");
 const input = require("input");
 const { getSortedUsersInfo, generateReplises } = require("./helpers");
 const { generateList } = require("./helpers");
+
 const setPeriod = require("./helpers/date");
 
-let stringSession =
-  "1AgAOMTQ5LjE1NC4xNjcuNDEBuzN7r3bsGDhULK4OYK0V7IZkN/k4fhuu+EimrutQO35cxEBC3f6rP8m96z3fE6AQLOKp6GCtz5zCijgsVKW8ttJyNXNaN96g3BbvkuioPG9APFHZbjBDCe7+4YcXNzlj2foVUe0n1jSJd1aPiiIgwY2Xh6JA4ZxIC6ufSYaLrlxcZgWULM9BTQ16flt1Vzduw8uYBdzB8Huk+IUB4bfjUaJ21Z/J/1Fmo5VAfSZvS5UobO/yjcBFTL1Q9QX0UcdjEFeGjAHfrFLdCMw8kDUb51+FJZcIJ1XOPmalzw9LUwuT2m0+OJnprH3aVlk7iwZ+C1xcFHL+KV6Z+mmQ+98awR8=";
-
-const apiId = 22050437;
-const apiHash = "0ffb162e4c6c3c30d91a38ba735f4111";
+const stringSession = process.env.STRING_SESSION;
+const apiId = process.env.API_ID;
+const apiHash = process.env.API_HASH;
 
 async function Service() {
   const client = new TelegramClient(
     new StringSession(stringSession),
-    apiId,
+    +apiId,
     apiHash,
     { connectionRetries: 1 }
   );
@@ -22,7 +21,7 @@ async function Service() {
   await client.start({
     phoneNumber: async () => await input.text("number ?"),
     password: async () => await input.text("password?"),
-    phoneCode: async () => await input.text("Code ?"),
+    phoneCode: async () => await input.text("code ?"),
     onError: (err) => console.log(err),
   });
   console.log("You should now be connected.");
