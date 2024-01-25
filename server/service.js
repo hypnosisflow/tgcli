@@ -138,6 +138,9 @@ async function Service() {
     return chatUsersInfo;
   }
 
+  // not working
+  // eerrors says about entities connection..... wtf ? 
+
   async function getUser(id) {
     const result = await client.invoke(
       new Api.users.GetFullUser({
