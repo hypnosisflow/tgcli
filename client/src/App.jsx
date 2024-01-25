@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { UsersData } from './components/user-data'
+import { useState } from 'react'
 import { Request } from './components/request'
 import { Dashboard } from './components/dashboard'
 import { Navbar } from './components/navbar'
@@ -37,7 +36,6 @@ function App() {
   return (
     <main className='flex flex-col items-center justify-start h-auto w-full'>
       <Navbar />
-
       <Routes >
         <Route
           path='/'
@@ -46,7 +44,6 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/database' element={<Database />} />
       </Routes>
-
     </main >
   )
 }

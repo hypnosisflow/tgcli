@@ -23,6 +23,9 @@ const loadService = async (req) => {
       case "chat":
         const chat = await service.getChat(id, period);
         return chat;
+      case "user":
+        const user = await service.getUser(id);
+        return user;
       default:
         console.log("err on server side");
     }
@@ -34,30 +37,44 @@ const loadService = async (req) => {
 };
 
 app.get("/", async (req, res) => {
-  if (req.query.hasOwnProperty("dash")) {
-    try {
-      const result = await client.query('SELECT * FROM "public"."users"');
-      res.json({ data: result });
-    } catch (error) {
-      console.log(error);
-      res.json({ error: error, msg: "Error on server (SQL)" });
-    }
-  } else {
-    try {
-      const response = await loadService(req);
-      res.send({
-        response: response,
-        type: req.query.type,
-        chatId: req.query.id,
-      });
-    } catch (error) {
-      console.log(error);
-      res.json({ error: error, msg: "Error on server (LOAD SERVICE)" });
-    }
+  // if (req.query.hasOwnProperty("dash")) {
+
+  // } else {
+  try {
+    const response = await loadService(req);
+    res.send({
+      response: response,
+      type: req.query.type,
+      chatId: req.query.id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error, msg: "Error on server (LOAD SERVICE)" });
   }
 });
 
-app.post("/", async (req, res) => {
+app.get("/database", async (req, res) => {
+  try {
+    const result = await client.query('SELECT * FROM "public"."users"');
+    res.json({ data: result });
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error, msg: "Error on server (SQL)" });
+  }
+});
+
+app.get("/dashboard", async (req, res) => {
+  console.log(req.query);
+  try {
+    const response = await loadService(req);
+    res.json({ data: response });
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error, msg: "Error on server (SQL)" });
+  }
+});
+
+app.post("/dashborad", async (req, res) => {
   const { data, id, period } = req.body;
   console.log(req.body);
 

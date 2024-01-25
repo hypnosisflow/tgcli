@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react'
 import arrow from '../assets/arrow_down.svg'
 import close from '../assets/close.svg'
 import { DataContext } from '../Context'
+import axios from 'axios'
 
-export const ChatUserCard = ({ i, del, dash }) => {
+export const ChatUserCard = ({ i, dash }) => {
     const [itemExpanded, setItemExpanded] = useState(false)
     const { handleDeleteUser, chatData } = useContext(DataContext)
 
@@ -34,20 +35,38 @@ export const ChatUserCard = ({ i, del, dash }) => {
 
     const msgs = renderMsgs(i)
 
+    const getUserData = async () => {
+        try {
+            const req = await axios.get("http://localhost:5050/dashboard", { params: { id: i.userId, type: 'user' } })
+
+            if (req.status === 200) {
+                // handleDatabase(req.data.data.rows)
+                console.log(req)
+            } else {
+                throw new Error('database request error')
+            }
+        } catch (error) {
+            console.log('fetchDB error', error)
+        }
+    }
+
     return (
-        <li key={i.userId} className={`flex flex-col border text-left mx-auto w-[540px] mb-2 py-1 px-2   rounded-md overflow-hidden transition-transofrm  duration-150 ease-linear ${itemExpanded ? 'max-h-full ' : 'max-h-[40px]'}`}>
-            <div className='flex flex-col relative'>
+        <li key={i.userId} className={`flex flex-col border text-left mx-auto w-[540px] mb-2 py-1 px-2  z-0  rounded-md overflow-hidden transition-transofrm  duration-150 ease-linear ${itemExpanded ? 'max-h-full ' : 'max-h-[40px]'}`}>
+            <div className='flex  relative'>
                 <div className='flex'>
                     <p className=''><strong>userId:</strong> {i.userId}</p>
                     <p className='ml-2'><strong>posts: </strong>{i.msgs?.length}</p>
                     <p className='ml-2'><strong>events:</strong> <span className='text-slate-300'>- - -</span></p>
                 </div>
-                <button onClick={() => setItemExpanded(prev => !prev)} className='mr-12 p-0 absolute right-0 bg-white flex justify-center items-center rounded-full hover:border-white'>
-                    <img src={arrow} alt="arrow-down" className=' w-[24px] h-[24px]' />
-                </button>
-                <button onClick={() => deleteUser(i.userId, chatData.data)} className={`p-0 ${dash ? 'absolute ' : 'hidden'} right-0 bg-white flex justify-center items-center rounded-full hover:border-white `}>
-                    <img src={close} alt="close-icon" className='w-[24px] h-[24px]' />
-                </button>
+                <div className='flex items-center '>
+                    <button onClick={getUserData} className='bg-white border border-black absolute right-20 mt-2'>get full data</button>
+                    <button onClick={() => setItemExpanded(prev => !prev)} className=' p-0  right-10 absolute bg-white flex justify-center items-center rounded-full hover:border-white'>
+                        <img src={arrow} alt="arrow-down" className=' w-[24px] h-[24px]' />
+                    </button>
+                    <button onClick={() => deleteUser(i.userId, chatData.data)} className={`p-0 ${dash ? 'absolute ' : 'hidden'} right-0 bg-white flex justify-center items-center rounded-full hover:border-white `}>
+                        <img src={close} alt="close-icon" className='w-[20px] h-[20px]' />
+                    </button>
+                </div>
             </div>
             {msgs}
         </li>
