@@ -37,9 +37,6 @@ const loadService = async (req) => {
 };
 
 app.get("/", async (req, res) => {
-  // if (req.query.hasOwnProperty("dash")) {
-
-  // } else {
   try {
     const response = await loadService(req);
     res.send({
