@@ -2,10 +2,9 @@ import React, { useContext } from 'react'
 import { DataContext } from '../Context'
 import { ChatUserCard } from '../ui/chat-user-card'
 import axios from 'axios'
-import close from '../assets/close.svg'
 
-export const Dashboard = ({ }) => {
-    const { channelData, chatData, handleChatDate } = useContext(DataContext)
+export const Dashboard = () => {
+    const { channelData, chatData } = useContext(DataContext)
 
     const send = async (data) => {
         const res = await axios.post("http://localhost:5050", data);

@@ -13,7 +13,7 @@ client.connect(function (err) {
     if (err) {
       return console.error("error running query", err);
     }
-    console.log("dbfile", result.rows[0].theTime);
+    // console.log("dbfile", result.rows[0].theTime);
   });
 });
 

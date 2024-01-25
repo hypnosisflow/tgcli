@@ -138,9 +138,28 @@ async function Service() {
     return chatUsersInfo;
   }
 
-  return { getChannel, getChat };
+  async function getUser(id) {
+    const result = await client.invoke(
+      new Api.users.GetFullUser({
+        id: '290048059',
+        // id: new Api.InputUser(290048059),
+      })
+    );
+    console.log(result); // prints the result
+  }
+
+  async function getUsers(ids) {
+    const result = await client.invoke(
+      new Api.users.GetFullUser({
+        id: ["918542960"],
+      })
+    );
+    console.log(result); // prints the result
+  }
+
+  return { getChannel, getChat, getUser, getUsers };
 }
 
-Service();
+// Service();
 
 module.exports = Service;

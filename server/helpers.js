@@ -25,7 +25,7 @@ function getSortedUsersInfo(arr) {
 
 function generateList(arr) {
   return arr.map((i) => {
-    console.log(i)
+    // console.log(i)
     if (i.fromId?.userId?.value !== undefined)
       return {
         userId: i.fromId?.userId?.value.toString(),

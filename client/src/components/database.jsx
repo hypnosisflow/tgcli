@@ -9,7 +9,7 @@ export const Database = () => {
 
     const fetchDB = async () => {
         try {
-            const req = await axios.get("http://localhost:5050", { params: { dash: 'active' } })
+            const req = await axios.get("http://localhost:5050/database")
 
             if (req.status === 200) {
                 handleDatabase(req.data.data.rows)
