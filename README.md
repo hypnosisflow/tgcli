@@ -2,7 +2,7 @@
 Tool for scrapping data from Telegram group chat. 
 
 #### Preview 
-<center><img src="./client/images/mood-mob.jpg" alt="screenshot" width=400 center/></center>
+<center><img src="./client/public/pre.png" alt="screenshot" width=400 center/></center>
 
 ## Techs
 Vite, React, Context API, Express, ElephantSQL, TailwindCSS, Telegram\Bot API, Chat-GPT API.
