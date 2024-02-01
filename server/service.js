@@ -1,6 +1,10 @@
-const { TelegramClient, Api } = require("telegram");
+const { TelegramClient } = require("telegram");
+const { Api } = require("telegram/tl");
 const { StringSession } = require("telegram/sessions");
+
+const sharp = require("sharp");
 const input = require("input");
+
 const { getSortedUsersInfo, generateReplises } = require("./helpers");
 const { generateList } = require("./helpers");
 
@@ -25,6 +29,14 @@ async function Service() {
     onError: (err) => console.log(err),
   });
   console.log("You should now be connected.");
+
+  // MY CLIENT DIAGLOS
+  const dialogs = await client.getDialogs();
+  // console.log(dialogs[0]);
+
+  // PARTICIPANTS OF CHAT
+  const particip = await client.getParticipants("-1001529421031");
+  console.log(particip[101].id.value);
 
   // section for CHANNEL
   const channelPlatformId = "-1001789253515";
@@ -113,9 +125,11 @@ async function Service() {
         new Api.messages.GetHistory({
           peer: chatId,
           offsetId: offset,
-          limit: 100,
+          limit: 10,
         })
       );
+
+      // console.log(typeof history.messages);
 
       const length = history.messages.length;
 
@@ -139,13 +153,13 @@ async function Service() {
   }
 
   // not working
-  // eerrors says about entities connection..... wtf ? 
+  // eerrors says about entities connection..... wtf ?
 
   async function getUser(id) {
     const result = await client.invoke(
       new Api.users.GetFullUser({
-        id: '290048059',
-        // id: new Api.InputUser(290048059),
+        // id: Object.assign({}, "fd"),
+        id: new Api.InputUser(290048059),
       })
     );
     console.log(result); // prints the result
@@ -160,7 +174,45 @@ async function Service() {
     console.log(result); // prints the result
   }
 
-  return { getChannel, getChat, getUser, getUsers };
+  const getAll = async () => {
+    const test = "766054057";
+    const newArr = particip
+      .map((i) => {
+        if (i.id?.value === BigInt(test)) {
+          const buf = Buffer.from(i.photo?.strippedThumb);
+
+          const a = sharp(buf).toFile("output.jpg", (err, info) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(
+                "Изображение успешно распарсено и сохранено в output.jpg"
+              );
+            }
+          });
+
+          return {
+            username: i.username,
+            firstname: i.firstName,
+            lastname: i.lastName,
+            phone: i.phone,
+            photo: {
+              id: i.photo.photoId,
+              thumb: i.photo.strippedThumb,
+            },
+          };
+          // return i
+        }
+      })
+      .filter((i) => i);
+
+    console.log(newArr[0].photo);
+    return newArr;
+  };
+
+  // getUsers();
+
+  return { getChannel, getChat, getUser, getUsers, getAll };
 }
 
 // Service();

@@ -24,7 +24,7 @@ const loadService = async (req) => {
         const chat = await service.getChat(id, period);
         return chat;
       case "user":
-        const user = await service.getUser(id);
+        const user = await service.getAll();
         return user;
       default:
         console.log("err on server side");
