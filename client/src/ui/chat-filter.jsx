@@ -2,7 +2,7 @@ import React from 'react';
 
 export const ChatFilter = ({ filter, setFilter }) => (
   <div className="flex flex-col w-full mt-4 justify-between rounded-md  ">
-    <p className="text-sm">select time period:</p>
+    <p className="text-sm font-semibold">Select time period:</p>
     <div className="flex text-sm items-center justify-between mt-2">
       <input
         type="button"

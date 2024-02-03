@@ -35,6 +35,10 @@ export const DataContextWrapper = ({ children }) => {
     });
   };
 
+  const handleUpdataChat = (data) => {
+    setChatData(prev => ({ ...prev, data }))
+  }
+
   const handleDatabase = (data) => {
     setDatabase(data);
   };
@@ -53,6 +57,7 @@ export const DataContextWrapper = ({ children }) => {
         database,
         handleDatabase,
         handleDeleteUser,
+        handleUpdataChat
       }}
     >
       {children}

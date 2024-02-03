@@ -4,6 +4,7 @@ import { CSVLink } from 'react-csv';
 
 import { DataContext } from '../Context';
 import { DatabaseCard } from '../ui/database-card';
+import { Button } from '../ui/buttons/Button';
 
 export const Database = () => {
   const { database, handleDatabase } = useContext(DataContext);
@@ -53,22 +54,18 @@ export const Database = () => {
 
   return (
     <div className="h-[800px] w-full bg-white rounded-2xl py-2 relative">
-      <p className="text-black text-xl font-semibold">database</p>
-      <p className="text-sm opacity-50">
-        infromation fetched from elephant sql
+      <p className="text-black text-sm font-semibold uppercase">Database</p>
+      <p className="text-xs opacity-50">
+        Infromation fetched from elephant sql.
       </p>
       {view}
       {!data && (
-        <button className="text-white" onClick={fetchDB}>
-          {' '}
-          request
-        </button>
+        <Button cb={fetchDB} value="request" theme="black" />
       )}
       {data && (
         <>
           <p className="text-sm font-medium mb-2">
             users loaded:
-            {' '}
             {database?.length}
           </p>
           <CSVLink

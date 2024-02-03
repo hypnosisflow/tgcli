@@ -4,7 +4,7 @@ export const ChatTypeSelect = ({
   id, setId, query, setQuery,
 }) => (
   <>
-    <p className="">select type of chat:</p>
+    <p className="font-semibold">Select type of chat:</p>
     <div className=" rounded-md flex h-[32px] justify-between mt-2">
       <input
         type="button"
@@ -19,7 +19,7 @@ export const ChatTypeSelect = ({
         onClick={() => setQuery('chat')}
       />
     </div>
-    <p className="text-sm mt-4">enter chat id:</p>
+    <p className="text-sm mt-4 font-semibold">Enter chat id:</p>
 
     <input
       placeholder="hardcoded"

@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import React, { useState } from 'react';
-
+import { Button } from '../ui/buttons/Button';
 import { Spinner } from '../ui/spinner';
 
 export const AIAnalyze = ({ arr }) => {
@@ -51,30 +51,30 @@ export const AIAnalyze = ({ arr }) => {
 
   return (
     <div className="w-full flex flex-col items-center text-sm mt-16">
-      <p>enter user id: </p>
+      <p className='font-semibold'>Enter user id: </p>
       <div className="">
         <input
           type="text"
           value={targetUserId}
-          className="border mb-4 h-[32px] rounded-md w-full px-2"
+          className="border h-[32px] rounded-md w-full px-2"
           onChange={(e) => setTargetUserId(e.target.value)}
         />
-        <button className="text-white w-full h-[32px]" onClick={request}>
-          analyze content with chat-gpt
-        </button>
-
+        <Button
+          value='analyze content with chat-gpt'
+          cb={request}
+          theme='black' />
         {loading ? (
           <Spinner />
         ) : (
           <div className="border w-full  rounded-md mt-4  p-1">
-            <p>stats</p>
-            <p>
-              <strong>userId:</strong>
+            <p>Stats for <span> <strong>userId:</strong>
               {' '}
-              {gptReponse?.userId}
+              {gptReponse?.userId}</span></p>
+            <p>
+
             </p>
             <p>
-              <strong>scores:</strong>
+              <strong></strong>
               {' '}
             </p>
             <span className="text-red-500">

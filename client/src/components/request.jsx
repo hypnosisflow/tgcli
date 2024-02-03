@@ -5,8 +5,8 @@ import { ChatTypeSelect } from '../ui/chat-type-select';
 
 import { AIAnalyze } from './ai-analyze';
 import { UsersData } from './user-data';
+import { Button } from '../ui/buttons/Button';
 
-const { log } = console;
 
 export const Request = ({
   data, generate, loading, title, chatId,
@@ -21,8 +21,6 @@ export const Request = ({
     setIsOpened((prev) => !prev);
   };
 
-  log(isOpened);
-
   return (
     <section className="flex gap-[20px] w-full justify-start ">
       <div
@@ -33,7 +31,7 @@ export const Request = ({
           onClick={handleOpen}
         />
         <div
-          className={`w-full mt-2 text-sm transition duration-100 ease-in ${isOpened ? 'opacity-1' : 'hidden'}`}
+          className={`w-full mt-2 text-sm transition duration-100 ease-in  rounded-lg p-2 ${isOpened ? 'opacity-1' : 'hidden'}`}
         >
           <ChatTypeSelect
             id={searchId}
@@ -42,13 +40,11 @@ export const Request = ({
             setQuery={setQuery}
           />
           <ChatFilter filter={filter} setFilter={setFilter} />
-          <button
+          <Button
+            value='generate'
+            cb={() => generate(query, filter, searchId)}
             disabled={!query}
-            className=" text-white mt-4 h-[32px] w-full"
-            onClick={() => generate(query, filter, searchId)}
-          >
-            request
-          </button>
+            theme='black' />
           <AIAnalyze arr={data} />
         </div>
       </div>
