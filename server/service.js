@@ -1,6 +1,10 @@
-const { TelegramClient, Api } = require("telegram");
+const { TelegramClient } = require("telegram");
+const { Api } = require("telegram/tl");
 const { StringSession } = require("telegram/sessions");
+
+const sharp = require("sharp");
 const input = require("input");
+
 const { getSortedUsersInfo, generateReplises } = require("./helpers");
 const { generateList } = require("./helpers");
 
@@ -25,6 +29,14 @@ async function Service() {
     onError: (err) => console.log(err),
   });
   console.log("You should now be connected.");
+
+  // MY CLIENT DIAGLOS
+  const dialogs = await client.getDialogs();
+  // console.log(dialogs[0]);
+
+  // PARTICIPANTS OF CHAT
+  const particip = await client.getParticipants("-1001529421031");
+  console.log(particip[101].id.value);
 
   // section for CHANNEL
   const channelPlatformId = "-1001789253515";
@@ -113,7 +125,7 @@ async function Service() {
         new Api.messages.GetHistory({
           peer: chatId,
           offsetId: offset,
-          limit: 100,
+          limit: 10,
         })
       );
 
@@ -138,31 +150,33 @@ async function Service() {
     return chatUsersInfo;
   }
 
-  // not working
-  // eerrors says about entities connection..... wtf ? 
+  // data of ids
+  const { log } = console;
+  const getUsers = async (data) => {
+    const unique = [...new Set(data.map((i) => BigInt(i)))];
 
-  async function getUser(id) {
-    const result = await client.invoke(
-      new Api.users.GetFullUser({
-        id: '290048059',
-        // id: new Api.InputUser(290048059),
+    const newArr = particip
+      .map((i) => {
+        if (unique.includes(i.id?.value)) {
+          return {
+            userId: i.id.value.toString(),
+            username: i.username,
+            firstname: i.firstName,
+            lastname: i.lastName,
+            phone: i.phone,
+            photo: {
+              id: i.photo?.photoId,
+              thumb: i.photo?.strippedThumb,
+            },
+          };
+        }
       })
-    );
-    console.log(result); // prints the result
-  }
+      .filter((i) => i);
 
-  async function getUsers(ids) {
-    const result = await client.invoke(
-      new Api.users.GetFullUser({
-        id: ["918542960"],
-      })
-    );
-    console.log(result); // prints the result
-  }
+    return newArr;
+  };
 
-  return { getChannel, getChat, getUser, getUsers };
+  return { getChannel, getChat, getUsers };
 }
-
-// Service();
 
 module.exports = Service;
