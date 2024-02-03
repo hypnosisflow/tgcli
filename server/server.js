@@ -14,7 +14,8 @@ const loadService = async (req) => {
   const service = await Service();
 
   const data = async (req) => {
-    const { id, type, period } = req.query;
+    const { id, type, period, data } = req.query;
+    // const { data } = req.body;
 
     switch (type) {
       case "channel":
@@ -24,8 +25,8 @@ const loadService = async (req) => {
         const chat = await service.getChat(id, period);
         return chat;
       case "user":
-        const user = await service.getAll();
-        return user;
+        const users = await service.getUsers(data);
+        return users;
       default:
         console.log("err on server side");
     }
@@ -61,7 +62,6 @@ app.get("/database", async (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-  console.log(req.query);
   try {
     const response = await loadService(req);
     res.json({ data: response });
@@ -73,10 +73,10 @@ app.get("/dashboard", async (req, res) => {
 
 app.post("/dashborad", async (req, res) => {
   const { data, id, period } = req.body;
-  console.log(req.body);
-
   async function send(arr) {
     arr.forEach(async (user) => {
+
+      console.log(user)
       const { userId, msgs } = user;
       const query =
         "INSERT INTO users (user_id, chat_type, chat_id, content ) VALUES ($1, $2, $3, $4);";

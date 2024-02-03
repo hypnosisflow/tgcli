@@ -129,8 +129,6 @@ async function Service() {
         })
       );
 
-      // console.log(typeof history.messages);
-
       const length = history.messages.length;
 
       if (length === 0) {
@@ -152,69 +150,33 @@ async function Service() {
     return chatUsersInfo;
   }
 
-  // not working
-  // eerrors says about entities connection..... wtf ?
+  // data of ids
+  const { log } = console;
+  const getUsers = async (data) => {
+    const unique = [...new Set(data.map((i) => BigInt(i)))];
 
-  async function getUser(id) {
-    const result = await client.invoke(
-      new Api.users.GetFullUser({
-        // id: Object.assign({}, "fd"),
-        id: new Api.InputUser(290048059),
-      })
-    );
-    console.log(result); // prints the result
-  }
-
-  async function getUsers(ids) {
-    const result = await client.invoke(
-      new Api.users.GetFullUser({
-        id: ["918542960"],
-      })
-    );
-    console.log(result); // prints the result
-  }
-
-  const getAll = async () => {
-    const test = "766054057";
     const newArr = particip
       .map((i) => {
-        if (i.id?.value === BigInt(test)) {
-          const buf = Buffer.from(i.photo?.strippedThumb);
-
-          const a = sharp(buf).toFile("output.jpg", (err, info) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log(
-                "Изображение успешно распарсено и сохранено в output.jpg"
-              );
-            }
-          });
-
+        if (unique.includes(i.id?.value)) {
           return {
+            userId: i.id.value.toString(),
             username: i.username,
             firstname: i.firstName,
             lastname: i.lastName,
             phone: i.phone,
             photo: {
-              id: i.photo.photoId,
-              thumb: i.photo.strippedThumb,
+              id: i.photo?.photoId,
+              thumb: i.photo?.strippedThumb,
             },
           };
-          // return i
         }
       })
       .filter((i) => i);
 
-    console.log(newArr[0].photo);
     return newArr;
   };
 
-  // getUsers();
-
-  return { getChannel, getChat, getUser, getUsers, getAll };
+  return { getChannel, getChat, getUsers };
 }
-
-// Service();
 
 module.exports = Service;
