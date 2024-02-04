@@ -71,16 +71,28 @@ app.get("/dashboard", async (req, res) => {
   }
 });
 
-app.post("/dashborad", async (req, res) => {
-  const { data, id, period } = req.body;
+const { log } = console;
+
+app.post("/dashboard", async (req, res) => {
+  const { data, id, period, date } = req.body;
+  // log(req.body);
+
   async function send(arr) {
     arr.forEach(async (user) => {
-
-      console.log(user)
-      const { userId, msgs } = user;
+      const { userId, msgs, firstname, lastname, phone, username } = user;
       const query =
-        "INSERT INTO users (user_id, chat_type, chat_id, content ) VALUES ($1, $2, $3, $4);";
-      const data = [userId, period, id, JSON.stringify(msgs)];
+        "INSERT INTO users (period_filter, chat_id, report_date, user_id,  firstname, lastname, username ,  phone,content) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);";
+      const data = [
+        period,
+        id,
+        date,
+        userId,
+        firstname,
+        lastname,
+        username,
+        phone,
+        JSON.stringify(msgs),
+      ];
       await client.query(query, data);
     });
   }
