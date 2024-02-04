@@ -2,60 +2,39 @@ import React from 'react';
 
 export const DatabaseCard = ({ i }) => {
   const {
-    id, user_id, chat_type, chat_id, content, events,
+    id, user_id, firstname, lastname, username, phone, report_date, chat_id, period_filter, content, events, photo
   } = i;
 
+  console.log(photo)
   return (
-    <li className="w-[370px] py-2 px-2 text-xs rounded-md mx-2 bg-slate-100">
-      <div className="flex  w-full gap- flex-col text-left">
-        <div className=" flex text-left justify-between">
-          <span className="w-full">
-            <span className="font-bold">db id:</span>
-            {' '}
-            {id}
-          </span>
-          <span className="w-full">
-            <span className="font-bold">tg id:</span>
-            {' '}
-            {user_id}
-          </span>
+    <li className="w-[400px] py-4 px-2 text-xs border border-black/5 rounded-md shadow ">
+      <p className='font-bold text-xs text-gray-500 '>User Information</p>
+      <div className='flex justify-between mt-2 text-left'>
+        <div className='flex flex-col w-full font-bold'>
+          <p>Database ID: <span className='font-normal'>{id}</span></p>
+          <p>Telegram ID: <span className='font-normal'>{user_id}</span></p>
+          <p>Username: <span className='font-normal'>{username}</span></p>
+          <p>Events: <span className='font-normal'>{events ?? '- - -'}</span></p>
         </div>
 
-        <div className="flex text-left justify-between">
-          <span className="w-full">
-            <span className="font-bold">first name:</span>
-            {' '}
-            jon
-          </span>
-          <span className="w-full">
-            <span className="font-bold">last name:</span>
-            {' '}
-            doe
-          </span>
+        <div className='flex flex-col w-full font-bold'>
+          <p>Firstname: <span className='font-normal'>{firstname}</span></p>
+          <p>Lastname:  <span className='font-normal'>{lastname}</span></p>
+          <p>Phone: <span className='font-normal'>{phone ?? '- - -'}</span></p>
         </div>
-        <span>
-          <span className="font-bold">events:</span>
-          {' '}
-          {events || 'none'}
-          {' '}
-        </span>
+      </div>
 
-        <p className="text-center font-medium">last report</p>
-        <div className="flex flex-col text-left justify-between">
-          <span className="w-full">
-            <span className="font-bold">chat id:</span>
-            {' '}
-            {chat_id}
-          </span>
-          <span className="w-full">
-            <span className="font-bold">period:</span>
-            {' '}
-            {chat_type}
-          </span>
-          <span>
-            <span className="font-bold">messages: </span>
-            {content?.length}
-          </span>
+      {/* report */}
+      <p className='font-bold text-xs text-gray-500 '>Last report</p>
+      <div className='mt-2 flex justify-between font-bold  text-left'>
+        <div className='flex flex-col w-full'>
+          <p>Date: <span className='font-normal'>{report_date}</span></p>
+          <p>Period: <span className='font-normal'>{period_filter}</span></p>
+        </div>
+
+        <div className='flex flex-col w-full'>
+          <p>Chat ID: <span className='font-normal'>{chat_id}</span></p>
+          <p>Messages: <span className='font-normal'>{content.length}</span></p>
         </div>
       </div>
     </li>

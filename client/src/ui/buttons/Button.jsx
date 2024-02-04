@@ -9,11 +9,12 @@ const styles = {
     }
 }
 
-export const Button = ({ cb, value, theme, disabled }) => {
+export const Button = ({ cb, value, theme, disabled, type = 'button' }) => {
 
     return (
         <button
             disabled={disabled}
+            type={type}
             onClick={cb}
             className={styles.base + ' ' + styles.theme[theme]}>
             {value}
