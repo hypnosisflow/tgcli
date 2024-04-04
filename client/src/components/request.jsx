@@ -31,7 +31,7 @@ export const Request = ({
           onClick={handleOpen}
         />
         <div
-          className={`w-full mt-2 text-sm transition duration-100 ease-in  rounded-lg p-2 ${isOpened ? 'opacity-1' : 'hidden'}`}
+          className={`w-full mt-2 text-sm transition duration-100 ease-in flex flex-col  rounded-lg py-2 ${isOpened ? 'opacity-1' : 'hidden'}`}
         >
           <ChatTypeSelect
             id={searchId}

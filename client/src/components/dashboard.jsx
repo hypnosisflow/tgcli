@@ -56,39 +56,6 @@ export const Dashboard = () => {
       </p>
 
       <div className="flex mt-4 mx-0  ">
-        {/* {channelData.data && (
-          <div className="w-1/2 mx-auto">
-            <span className="font-bold mb-2">channel report</span>
-            <span className="ml-2 opacity-50 text-sm">{channelData.id}</span>
-            <span className="ml-2 opacity-50 text-sm">
-              {channelData.period}
-            </span>
-            <span className="ml-2 opacity-50 text-sm">{channelData.date}</span>
-            <span className="ml-2 text-sm font-bold">
-              (
-              {channelData.data.length}
-              )
-            </span>
-            <ul className="flex mt-2  text-sm flex-wrap justify-center w-full gap-2 max-h-[640px]  overflow-y-scroll">
-              {channelData.data.map((i, index) => <ChatUserCard i={i} key={index} dash />)}
-            </ul>
-            <div className="flex text-sm gap-5 justify-center mt-4 mb-2">
-              <button
-                className="text-black border h-[32px] border-black bg-white mt-4"
-                onClick={() => alert('comming')}
-              >
-                remove from dashborad
-              </button>
-              <button
-                className="text-white h-[32px] mt-4"
-                onClick={() => send(channelData)}
-              >
-                send channel data
-              </button>
-            </div>
-          </div>
-        )} */}
-
         {chatData.data && (
           <div className="max-w-[640px] mx-auto h-[640px] ">
             <span className="font-bold mb-2">Chat report:</span>

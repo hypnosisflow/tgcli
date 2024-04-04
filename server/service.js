@@ -30,13 +30,16 @@ async function Service() {
   });
   console.log("You should now be connected.");
 
+  client.floodSleepThreshold = 999;
+  // PLAY
+
+  console.log("flood", client.floodSleepThreshold);
+
   // MY CLIENT DIAGLOS
   const dialogs = await client.getDialogs();
-  // console.log(dialogs[0]);
 
   // PARTICIPANTS OF CHAT
   const particip = await client.getParticipants("-1001529421031");
-  console.log(particip[101].id.value);
 
   // section for CHANNEL
   const channelPlatformId = "-1001789253515";
@@ -125,10 +128,9 @@ async function Service() {
         new Api.messages.GetHistory({
           peer: chatId,
           offsetId: offset,
-          limit: 10,
+          limit: 100,
         })
       );
-
       const length = history.messages.length;
 
       if (length === 0) {
@@ -137,10 +139,8 @@ async function Service() {
 
       lastItemDate = history.messages[length - 1].date * 1000;
       offset = history.messages[length - 1].id;
-
       newFullArray.push(...history.messages);
     }
-
     const messagesUntilDate = newFullArray.filter(
       (message) => message.date <= inputDateMS
     );

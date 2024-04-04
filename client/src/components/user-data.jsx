@@ -63,7 +63,7 @@ export const UsersData = ({
 
     return (
 
-      <div className="mb-2  text-sm h-[32px] w-[320px] flex">
+      <div className="mb-2 mt-2  text-sm h-[32px] w-[320px] flex">
         <FilterButton cb={() => doFilter('initial', data)} filter={filter} value="initial" />
         <FilterButton cb={() => doFilter('top-10', data)} filter={filter} value="top-10" />
         <FilterButton cb={() => doFilter('top-25', data)} filter={filter} value="top-25" />
@@ -74,7 +74,7 @@ export const UsersData = ({
 
   return (
     <div className="flex flex-col  mt-4 justify-start ml-10 items-center w-full ">
-      <div className="flex gap-1 mx-auto  items-center ">
+      <div className="flex gap-4 mx-auto  items-center ">
         <span className="uppercase text-sm   font-semibold">{type} posters: {data?.length}</span>
         <span className=" opacity-50 ">{chatId}</span>
         <span className=" opacity-50 ">{period}</span>
