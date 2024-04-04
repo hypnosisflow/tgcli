@@ -14,7 +14,7 @@ const stringSession = process.env.STRING_SESSION;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 
-async function Service() {
+function Service() {
   const client = new TelegramClient(
     new StringSession(stringSession),
     +apiId,
@@ -22,7 +22,7 @@ async function Service() {
     { connectionRetries: 1 }
   );
 
-  await client.start({
+  client.start({
     phoneNumber: async () => await input.text("number ?"),
     password: async () => await input.text("password?"),
     phoneCode: async () => await input.text("code ?"),
@@ -30,16 +30,11 @@ async function Service() {
   });
   console.log("You should now be connected.");
 
-  client.floodSleepThreshold = 999;
-  // PLAY
+  // // MY CLIENT DIAGLOS
+  // const dialogs = await client.getDialogs();
 
-  console.log("flood", client.floodSleepThreshold);
-
-  // MY CLIENT DIAGLOS
-  const dialogs = await client.getDialogs();
-
-  // PARTICIPANTS OF CHAT
-  const particip = await client.getParticipants("-1001529421031");
+  // // PARTICIPANTS OF CHAT
+  // const particip = await client.getParticipants("-1001529421031");
 
   // section for CHANNEL
   const channelPlatformId = "-1001789253515";
@@ -178,5 +173,7 @@ async function Service() {
 
   return { getChannel, getChat, getUsers };
 }
+
+
 
 module.exports = Service;
