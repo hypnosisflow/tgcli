@@ -10,43 +10,28 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 
-const loadService = async (req) => {
-  const service = await Service();
+// const loadData = async (req) => {
+//   const channel = await service.getChannel(id, period);
+//   const chat = await service.getChat(id, period);
+//   const users = await service.getUsers(data);
+// };
+const service = Service();
 
-  const data = async (req) => {
-    const { id, type, period, data } = req.query;
-    // const { data } = req.body;
-
-    switch (type) {
-      case "channel":
-        const channel = await service.getChannel(id, period);
-        return channel;
-      case "chat":
-        const chat = await service.getChat(id, period);
-        return chat;
-      case "user":
-        const users = await service.getUsers(data);
-        return users;
-      default:
-        console.log("err on server side");
-    }
-  };
-
-  const result = await data(req);
-
-  return result;
-};
+console.log("sss", service);
 
 app.get("/", async (req, res) => {
+  const { id, type, period, data } = req.query;
+
   try {
-    const response = await loadService(req);
+    const response = await service.getChat(id, period);
+
     res.send({
       response: response,
       type: req.query.type,
       chatId: req.query.id,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error, "err");
     res.json({ error: error, msg: "Error on server (LOAD SERVICE)" });
   }
 });
@@ -107,5 +92,5 @@ app.post("/dashboard", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  // console.log(`Server is running on port: ${PORT}`);
+  console.log(`Server is running on port: ${PORT}`);
 });
