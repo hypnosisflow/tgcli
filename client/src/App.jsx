@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -6,7 +5,7 @@ import { Dashboard } from './components/dashboard';
 import { Database } from './components/database';
 import { Navbar } from './components/navbar';
 import { Request } from './components/request';
-
+import axios from 'axios';
 import './App.css';
 
 const App = () => {
@@ -19,7 +18,7 @@ const App = () => {
     setLoading(true);
 
     try {
-      const req = await axios.get('http://localhost:5050', {
+      const req = await axios.get('https://tgserver.vercel.app/', {
         params: { type: query, period: filter, id },
       });
       if (req.status === 200) {

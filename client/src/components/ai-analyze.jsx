@@ -18,6 +18,8 @@ export const AIAnalyze = ({ arr }) => {
     dangerouslyAllowBrowser: true,
   });
 
+  console.log(openai)
+
   async function request() {
     setGptReponse(null);
     setLoading(true);
@@ -29,7 +31,12 @@ export const AIAnalyze = ({ arr }) => {
         model: 'gpt-3.5-turbo',
       });
 
+      console.log('completion', completion)
+
       const response = JSON.parse(completion.choices[0].message.content);
+
+      console.log('res', response)
+
       const stats = {};
       response.forEach((item) => {
         stats[item] = (stats[item] || 0) + 1;

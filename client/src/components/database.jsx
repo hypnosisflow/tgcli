@@ -10,7 +10,6 @@ export const Database = () => {
   const { database, handleDatabase } = useContext(DataContext);
 
 
-  console.log(database)
   const fetchDB = async () => {
     try {
       const req = await axios.get('http://localhost:5050/database');
