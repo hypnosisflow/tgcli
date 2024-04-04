@@ -22,12 +22,15 @@ function Service() {
     { connectionRetries: 1 }
   );
 
-  client.start({
-    phoneNumber: async () => await input.text("number ?"),
-    password: async () => await input.text("password?"),
-    phoneCode: async () => await input.text("code ?"),
-    onError: (err) => console.log(err),
-  });
+  // client.start({
+  //   phoneNumber: async () => await input.text("number ?"),
+  //   password: async () => await input.text("password?"),
+  //   phoneCode: async () => await input.text("code ?"),
+  //   onError: (err) => console.log(err),
+  // });
+
+  client.start()
+  
   console.log("You should now be connected.");
 
   // // MY CLIENT DIAGLOS
@@ -136,9 +139,9 @@ function Service() {
       offset = history.messages[length - 1].id;
       newFullArray.push(...history.messages);
     }
-    const messagesUntilDate = newFullArray.filter(
-      (message) => message.date <= inputDateMS
-    );
+    const messagesUntilDate = newFullArray
+      .filter((message) => message.date <= inputDateMS)
+      .sort((a, b) => b.msgs.length - a.msgs.length);
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList);
 
@@ -173,7 +176,5 @@ function Service() {
 
   return { getChannel, getChat, getUsers };
 }
-
-
 
 module.exports = Service;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { Dashboard } from './components/dashboard';
@@ -22,10 +22,10 @@ const App = () => {
         params: { type: query, period: filter, id },
       });
       if (req.status === 200) {
-        const sorted = req.data.response.sort(
-          (a, b) => b.msgs.length - a.msgs.length,
-        );
-        setData({ id: req.data.chatId, data: sorted });
+        // const sorted = req.data.response.sort(
+        //   (a, b) => b.msgs.length - a.msgs.length,
+        // );
+        setData({ id: req.data.chatId, data: req.data.response });
         setTitle({ type: query, period: filter });
         setLoading(false);
       } else {
