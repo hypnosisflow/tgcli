@@ -10,7 +10,7 @@ const ICONS = {
 }
 
 const styles = {
-    base: 'p-0  right-10  bg-white flex justify-center items-center rounded-full hover:border-white',
+    base: 'p-0  right-0  bg-white flex justify-center items-center rounded-full hover:border-white',
     theme: {
         arrow: ICONS.arrow,
         close: ICONS.close
@@ -25,7 +25,7 @@ export const IconButton = ({ cb, value, theme }) => {
             <img
                 src={styles.theme[value]}
                 alt="icon"
-                className=" w-[24px] h-[24px]" />
+                className=" w-[18px] h-[18px]" />
         </button>
     )
 }

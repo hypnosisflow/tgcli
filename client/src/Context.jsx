@@ -11,11 +11,13 @@ export const DataContextWrapper = ({ children }) => {
   });
   const [chatData, setChatData] = useState({
     id: '',
-    data: null,
+    data: [],
     period: '',
     date: null,
   });
   const [database, setDatabase] = useState(null);
+
+  console.log(chatData)
 
   const handleChannelData = (data) => {
     setChannelData({
@@ -26,12 +28,13 @@ export const DataContextWrapper = ({ children }) => {
     });
   };
 
-  const handleChatData = (data) => {
+  const handleChatData = ({ data, id, period, date }) => {
+    console.log('handler', data)
     setChatData({
-      id: data?.chatId,
-      data: data?.active,
-      period: data?.period,
-      date: data.date,
+      id: id,
+      data: data,
+      period: period,
+      date: date,
     });
   };
 

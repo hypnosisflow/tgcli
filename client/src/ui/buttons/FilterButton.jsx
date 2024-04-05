@@ -1,15 +1,15 @@
 import React from 'react'
 
 const styles = {
-    base: 'cursor-pointer  w-full h-[32px] bg-slate-100'
+    base: 'cursor-pointer rounded-md w-full h-[28px] bg-slate-100 text-black'
 }
 
-export const FilterButton = ({ cb, filter, value }) => {
+export const FilterButton = ({ cb, filter, value, text }) => {
     return (
         <input
             type="button"
-            className={`${styles.base}  ${filter === value ? 'opacity-1 font-semibold' : 'opacity-50'} `}
-            value={value}
+            className={`${styles.base}  ${filter === value ? ' font-semibold' : 'bg-white'} `}
+            value={text}
             onClick={() => cb()}
         />
     )

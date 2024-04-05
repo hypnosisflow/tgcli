@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { Dashboard } from './components/dashboard';
 import { Database } from './components/database';
 import { Navbar } from './components/navbar';
 import { Request } from './components/request';
+
+import { DataContext } from './Context';
 import axios from 'axios';
 import './App.css';
 
@@ -13,19 +15,21 @@ const App = () => {
   const [title, setTitle] = useState({ type: '', period: '' });
   const [data, setData] = useState({ id: '', data: [] });
 
+  const { handleChatData } = useContext(DataContext);
+
   const generate = async (query, filter, id) => {
     setData(null);
     setLoading(true);
 
     try {
-      const req = await axios.get('https://tgserver.vercel.app/', {
-        params: { type: query, period: filter, id },
+      const date = new Date();
+      const req = await axios.get('http://localhost:5050/', {
+        params: { type: 'chat', period: filter, id },
       });
       if (req.status === 200) {
-        // const sorted = req.data.response.sort(
-        //   (a, b) => b.msgs.length - a.msgs.length,
-        // );
-        setData({ id: req.data.chatId, data: req.data.response });
+        // setData({ id: req.data.chatId, data: req.data.response });
+        // console.log(req.data.response);
+        handleChatData({ data: req.data.response, id: id, period: filter, date: date });
         setTitle({ type: query, period: filter });
         setLoading(false);
       } else {
@@ -53,7 +57,7 @@ const App = () => {
             />
           )}
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route path="/database" element={<Database />} />
       </Routes>
     </main>

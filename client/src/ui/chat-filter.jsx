@@ -1,27 +1,14 @@
 import React from 'react';
+import { FilterButton } from './buttons/FilterButton';
 
-export const ChatFilter = ({ filter, setFilter }) => (
-  <div className="flex flex-col w-full mt-4 justify-between rounded-md  ">
+export const ChatFilter = ({ filter, handleFilter }) => (
+  <div className="flex text-sm flex-col w-full mt-8 justify-between rounded-md  ">
     <p className="text-sm font-semibold">Select time period:</p>
+    <p className='text-gray-500 text-xs'>At the moment service supports limited filters.</p>
     <div className="flex text-sm items-center justify-between mt-2">
-      <input
-        type="button"
-        value="1 week"
-        className={`px-2 h-[32px] text-center w-full  cursor-pointer ${filter === 'week' ? 'opacity-1 font-semibold' : 'opacity-50'} bg-slate-100`}
-        onClick={() => setFilter('week')}
-      />
-      <input
-        type="button"
-        value="1 month"
-        className={`px-2 h-[32px] text-center w-full  cursor-pointer ${filter === 'month' ? 'opacity-1 font-semibold' : 'opacity-50'} bg-slate-100`}
-        onClick={() => setFilter('month')}
-      />
-      <input
-        type="button"
-        value="3 months"
-        className={`px-2 h-[32px]  text-center w-full cursor-pointer ${filter === 'quater' ? 'opacity-1 font-semibold' : 'opacity-50'} bg-slate-100`}
-        onClick={() => setFilter('quater')}
-      />
+      <FilterButton cb={() => handleFilter('week')} filter={filter} text="One week" value={'week'} />
+      <FilterButton cb={() => handleFilter('month')} filter={filter} text="One month" value={'month'} />
+      <FilterButton cb={() => handleFilter('quater')} filter={filter} text="One quater" value={'quater'} />
     </div>
   </div>
 );

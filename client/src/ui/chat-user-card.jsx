@@ -10,6 +10,7 @@ import axios from 'axios';
 export const ChatUserCard = ({ i, dash }) => {
     const [usersFullInfo, setUsersFullInfo] = useState([]);
     const [itemExpanded, setItemExpanded] = useState(false);
+    const [deleteWarning, setDeleteWarning] = useState(false);
 
     const { handleDeleteUser, chatData } = useContext(DataContext);
 
@@ -44,62 +45,44 @@ export const ChatUserCard = ({ i, dash }) => {
 
     const msgs = renderMsgs(i);
 
-    // const getUserData = async () => {
-    //     try {
-    //         const req = await axios.get('http://localhost:5050/dashboard', {
-    //             params: { id: i.userId, type: 'user' },
-    //         });
-
-    //         if (req.status === 200) {
-    //             setUsersFullInfo(req.data);
-    //         } else {
-    //             throw new Error('database request error');
-    //         }
-    //     } catch (error) {
-    //         console.log('fetchDB error', error);
-    //     }
-
-    // };
 
     return (
 
         <li
             key={i.userId}
-            className={`flex flex-col border text-left mx-auto  w-[540px] mb-2 py-1 px-2  z-0  rounded-md overflow-hidden transition-transofrm  duration-150 ease-linear ${itemExpanded ? 'max-h-full ' : 'max-h-[60px]'}`}
+            className={`flex flex-col  text-left bg-white  w-[280px] p-2 shadow-sm  z-0  rounded-md overflow-hidden transition-transofrm  duration-150 ease-linear ${itemExpanded ? 'max-h-full ' : 'max-h-[130px]'}`}
         >
-            <div className="flex flex-col text-sm relative">
-                <div className="flex">
+            <div className="flex flex-col text-sm leading-[18px]  relative">
+                <div className="flex flex-col">
                     <p className="w-[160px]">
-                        <strong>userId:</strong>
+                        <strong>UserId:</strong>
                         <span> {i.userId}</span>
                     </p>
-                    <p className="ml-2">
-                        <strong>posts: </strong>
+                    <p className="">
+                        <strong>Messages: </strong>
                         {i.msgs?.length}
                     </p>
+
+                    <p className="font-bold w-[160px]">Nickname:
+                        <span className='font-normal ml-2'>{i.username ?? 'none'}</span>
+                    </p>
+                    <p className="font-bold w-[160px]">Firstname:
+                        <span className='font-normal ml-2'>{i.firstname ?? 'none'}</span>
+                    </p>
+
+                    <p className="font-bold w-[160px]">Phone:
+                        <span className='font-normal ml-2'>{i.phone ?? 'none'}</span>
+                    </p>
+                    <p className="font-bold w-[160px]">Lastname:
+                        <span className='font-normal ml-2'>{i.lastname ?? 'none'}</span>
+                    </p>
+
                 </div>
 
-                <div className="flex gap-2  pt-1">
-                    <p className="font-bold w-[160px]">nick:
-                        <span className='font-normal ml-2'>{i.username ?? 'no username'}</span>
-                    </p>
-                    <p className="font-bold w-[160px]">firstname:
-                        <span className='font-normal ml-2'>{i.firstname ?? 'no firstname'}</span>
-                    </p>
-                </div>
 
-                <div className={`flex gap-2  pt-1 ${itemExpanded ? 'opacity-1' : 'opacity-0'}`}>
-                    <p className="font-bold w-[160px]">phone:
-                        <span className='font-normal ml-2'>{i.phone ?? 'no phone'}</span>
-                    </p>
-                    <p className="font-bold w-[160px]">lastname:
-                        <span className='font-normal ml-2'>{i.lastname ?? 'no last name'}</span>
-                    </p>
-                </div>
-
-                <div className=" absolute right-0 items-center flex gap-2">
-                    <IconButton cb={() => setItemExpanded((prev) => !prev)} value='arrow' />
+                <div className=" absolute right-0 items-center flex flex-col justify-between h-full">
                     <IconButton cb={() => deleteUser(i.userId, chatData.data)} value='close' />
+                    <IconButton cb={() => setItemExpanded((prev) => !prev)} value='arrow' />
                 </div>
             </div>
             {msgs}

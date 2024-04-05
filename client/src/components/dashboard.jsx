@@ -8,45 +8,7 @@ import { Button } from '../ui/buttons/Button';
 export const Dashboard = () => {
   const { channelData, chatData, handleUpdataChat } = useContext(DataContext);
 
-  const send = async (data) => {
-    try {
-      const res = await axios.post('http://localhost:5050/dashboard', data);
-      if (res.status === 200) {
-        alert('data sent to elephant sql');
-      } else {
-        alert('data not sent (error)');
-      }
-    } catch (error) {
-      console.error('Error sending data:', error);
-    }
-  };
-
-  console.log(chatData)
-
-  const reqUserFullInfo = async (arr) => {
-    const data = arr.data.map(i => i.userId)
-
-    try {
-      const req = await axios.get('http://localhost:5050/dashboard', {
-        params: { type: 'user', data: data },
-      });
-
-      if (req.status === 200) {
-        const data = req.data
-        const newarr = chatData.data.map((i) => {
-          const item = data.data.filter(j => j.userId === i.userId)
-          return { ...i, ...item[0] }
-        })
-
-        handleUpdataChat(newarr)
-
-      } else {
-        throw new Error('database request error');
-      }
-    } catch (error) {
-      console.log('fetchDB error', error);
-    }
-  }
+ 
 
   return (
     <section className=" h-full py-2 w-full bg-white rounded-2xl border-white border relative">

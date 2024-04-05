@@ -6,35 +6,26 @@ import { MockData } from '../ui/mock-data';
 import { Spinner } from '../ui/spinner';
 import { Button } from '../ui/buttons/Button';
 import { FilterButton } from '../ui/buttons/FilterButton';
+import { Pagination } from '../ui/pagination';
 
-export const UsersData = ({
-  data, title, chatId, loading,
-}) => {
-  const { handleChatData, handleChannelData } = useContext(DataContext);
+import { getUserFullInfo } from '../utils/api';
+
+import axios from 'axios'
+
+export const UsersData = ({ loading }) => {
+  const { handleChatData, handleChannelData, chatData, handleUpdataChat } = useContext(DataContext);
   const [saved, setSaved] = useState(false);
-  const [filter, setFilter] = useState('init');
+  const [filter, setFilter] = useState('initial');
   const [active, setActive] = useState(null);
-  const { type, period } = title;
-
-  console.log(chatId);
 
   useEffect(() => {
-    setActive(data);
-  }, [data]);
+    setActive(chatData.data);
+  }, [chatData.data]);
 
-  const doSave = (arg) => {
-    setSaved(true);
-    switch (type) {
-      case 'channel':
-        return handleChannelData(arg);
-      case 'chat':
-        return handleChatData(arg);
-      default:
-    }
-  };
 
   const doFilter = (arg, arr) => {
-    const res = () => {
+    setFilter(arg);
+    const data = () => {
       switch (arg) {
         case 'top-25':
           return arr.slice(0, 24);
@@ -42,13 +33,22 @@ export const UsersData = ({
           return arr.slice(0, 10);
         case 'initial':
           return arr;
-        default:
       }
-    };
-    const newArr = res();
+    }
 
-    setActive(newArr);
-    setFilter(arg);
+    setActive(data());
+  };
+  const send = async (data) => {
+    try {
+      const res = await axios.post('http://localhost:5050/dashboard', data);
+      if (res.status === 200) {
+        alert('data sent to elephant sql');
+      } else {
+        alert('data not sent (error)');
+      }
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
   };
 
   if (loading) {
@@ -59,38 +59,67 @@ export const UsersData = ({
     );
   }
 
+  const handleUserFullInfo = async (arr) => {
+    const data = await getUserFullInfo(arr);
+    handleUpdataChat(data);
+  }
+
   const Filter = () => {
-
     return (
+      <div className='flex justify-between mb-3'>
+        <div className="text-sm w-[320px] flex">
+          <FilterButton cb={() => doFilter('initial', chatData.data)} filter={filter} text="Initial" value='initial' />
+          <FilterButton cb={() => doFilter('top-10', chatData.data)} filter={filter} text="Top 10" value='top-10' />
+          <FilterButton cb={() => doFilter('top-25', chatData.data)} filter={filter} text="Top 25" value='top-25' />
+        </div>
 
-      <div className="mb-2 mt-2  text-sm h-[32px] w-[320px] flex">
-        <FilterButton cb={() => doFilter('initial', data)} filter={filter} value="initial" />
-        <FilterButton cb={() => doFilter('top-10', data)} filter={filter} value="top-10" />
-        <FilterButton cb={() => doFilter('top-25', data)} filter={filter} value="top-25" />
+        <div className='max-w-[320px] w-full flex flex-col  gap-2'>
+          <Button cb={() => handleUserFullInfo(chatData.data)} value='Find extra info' theme={'black'} />
+          <div className='flex gap-2'>
+
+
+            <Button
+              value='Clear'
+              theme='smoke'
+            />
+            <Button
+              cb={() => send(chatData)}
+              value={saved ? 'Saved' : 'Save to dashboard'}
+              theme='black'
+            />
+          </div>
+        </div>
+
+
       </div>
-
     )
   }
 
   return (
-    <div className="flex flex-col  mt-4 justify-start ml-10 items-center w-full ">
-      <div className="flex gap-4 mx-auto  items-center ">
-        <span className="uppercase text-sm   font-semibold">{type} posters: {data?.length}</span>
-        <span className=" opacity-50 ">{chatId}</span>
-        <span className=" opacity-50 ">{period}</span>
+    <div className="flex flex-col justify-start w-full mt-2">
+      <div className="flex gap-4 mx-auto w-full   ">
+        <span className=" text-sm  font-semibold">Posters: {chatData.data?.length}</span>
+        <span className="text-sm opacity-50 ">{chatData.id}</span>
+        <span className="text-sm opacity-50 ">{chatData.period}</span>
       </div>
       <Filter />
 
       {active && (
-        <ul className=" text-sm   justify-center  w-full gap-2 max-h-[640px]  overflow-y-scroll">
+        <ul className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-y-4 max-h-[740px]  pr-2 overflow-y-scroll">
           {active.map((i, index) => <ChatUserCard i={i} key={index} />)}
         </ul>
       )}
-      <Button
-        cb={() => doSave({ chatId, active, period, date: new Date().toLocaleString() })}
-        value={saved ? 'saved' : 'save to dashboard'}
-        theme='black'
-      />
+
+      {/* <Pagination
+        items={active}
+        pageLimit={active?.length}
+        setPageItems={setActive}
+      /> */}
+
+
+
+
+
 
     </div>
   );

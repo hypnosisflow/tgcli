@@ -57,17 +57,18 @@ export const AIAnalyze = ({ arr }) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center text-sm mt-16">
-      <p className='font-semibold'>Enter user id: </p>
-      <div className="">
+    <div className="w-full flex flex-col text-sm mt-16">
+      <p className='font-semibold '>Enter user ID: </p>
+      <p className='text-xs text-gray-500'>In this section you can analyze users content behaviour with GPT3.5</p>
+      <div className="mt-2">
         <input
           type="text"
           value={targetUserId}
-          className="border h-[32px] rounded-md w-full px-2"
+          className="border h-[32px] rounded-md w-full px-2 mb-8"
           onChange={(e) => setTargetUserId(e.target.value)}
         />
         <Button
-          value='analyze content with chat-gpt'
+          value='Analyze '
           cb={request}
           theme='black' />
         {loading ? (
