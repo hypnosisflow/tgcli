@@ -4,7 +4,7 @@ import { ChatUserCard } from '../ui/chat-user-card';
 
 import { AIAnalyze } from './ai-analyze';
 
-export const ChatUsers = ({ chatUsers }) => {
+export function ChatUsers({ chatUsers }) {
   const posters = chatUsers.map((i) => i.userId).length;
   const sorted = chatUsers.sort((a, b) => b.msgs.length - a.msgs.length);
 
@@ -27,4 +27,4 @@ export const ChatUsers = ({ chatUsers }) => {
       </div>
     </div>
   );
-};
+}

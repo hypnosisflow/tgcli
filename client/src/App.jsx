@@ -1,63 +1,33 @@
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { Dashboard } from './components/dashboard';
-import { Database } from './components/database';
+import Database from './components/database';
 import { Navbar } from './components/navbar';
-import { Request } from './components/request';
-import axios from 'axios';
+import Request from './components/request';
+import { DatabaseModal } from './ui/database-modal';
+import RequestUserModal from './ui/request-user-modal';
+
 import './App.css';
 
-const App = () => {
-  const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState({ type: '', period: '' });
-  const [data, setData] = useState({ id: '', data: [] });
-
-  const generate = async (query, filter, id) => {
-    setData(null);
-    setLoading(true);
-
-    try {
-      const req = await axios.get('https://tgserver.vercel.app/', {
-        params: { type: query, period: filter, id },
-      });
-      if (req.status === 200) {
-        const sorted = req.data.response.sort(
-          (a, b) => b.msgs.length - a.msgs.length,
-        );
-        setData({ id: req.data.chatId, data: sorted });
-        setTitle({ type: query, period: filter });
-        setLoading(false);
-      } else {
-        setLoading(false);
-        throw new Error('data request error');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   return (
     <main className="flex flex-col items-center justify-start h-auto w-full">
       <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <Request
-              data={data?.data}
-              generate={generate}
-              loading={loading}
-              title={title}
-              chatId={data?.id}
-            />
-          )}
-        />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Routes location={background || location}>
+        <Route path="/" element={(<Request />)} />
         <Route path="/database" element={<Database />} />
       </Routes>
+      {background && (
+        <Routes>
+          <Route path="/user/:id" element={<RequestUserModal />} />
+          <Route path="/database/:id" element={<DatabaseModal />} />
+        </Routes>
+      )}
     </main>
   );
-};
+}
 
 export default App;

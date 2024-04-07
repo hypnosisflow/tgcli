@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/buttons/Button';
 import { Spinner } from '../ui/spinner';
 
-export const AIAnalyze = ({ arr }) => {
+export function AIAnalyze({ arr }) {
   const [targetUserId, setTargetUserId] = useState('');
   const [gptReponse, setGptReponse] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export const AIAnalyze = ({ arr }) => {
     dangerouslyAllowBrowser: true,
   });
 
-  console.log(openai)
+  console.log(openai);
 
   async function request() {
     setGptReponse(null);
@@ -31,11 +31,11 @@ export const AIAnalyze = ({ arr }) => {
         model: 'gpt-3.5-turbo',
       });
 
-      console.log('completion', completion)
+      console.log('completion', completion);
 
       const response = JSON.parse(completion.choices[0].message.content);
 
-      console.log('res', response)
+      console.log('res', response);
 
       const stats = {};
       response.forEach((item) => {
@@ -57,31 +57,37 @@ export const AIAnalyze = ({ arr }) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center text-sm mt-16">
-      <p className='font-semibold'>Enter user id: </p>
-      <div className="">
+    <div className="w-[320px] flex flex-col text-sm mt-16">
+      <p className="font-semibold ">Enter user ID: </p>
+      <p className="text-xs text-gray-500">In this section you can analyze users content behaviour with GPT3.5</p>
+      <div className="mt-2">
         <input
           type="text"
           value={targetUserId}
-          className="border h-[32px] rounded-md w-full px-2"
+          className="border h-[32px] rounded-md w-full px-2 mb-8"
           onChange={(e) => setTargetUserId(e.target.value)}
         />
         <Button
-          value='analyze content with chat-gpt'
+          value="Analyze "
           cb={request}
-          theme='black' />
+          theme="black"
+        />
         {loading ? (
           <Spinner />
         ) : (
           <div className="border w-full  rounded-md mt-4  p-1">
-            <p>Stats for <span> <strong>userId:</strong>
-              {' '}
-              {gptReponse?.userId}</span></p>
             <p>
-
+              Stats for
+              <span>
+                {' '}
+                <strong>userId:</strong>
+                {' '}
+                {gptReponse?.userId}
+              </span>
             </p>
+            <p />
             <p>
-              <strong></strong>
+              <strong />
               {' '}
             </p>
             <span className="text-red-500">
@@ -101,4 +107,4 @@ export const AIAnalyze = ({ arr }) => {
       </div>
     </div>
   );
-};
+}

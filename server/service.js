@@ -10,31 +10,35 @@ const { generateList } = require("./helpers");
 
 const setPeriod = require("./helpers/date");
 
-const stringSession = process.env.STRING_SESSION;
+const stringSession = process.env.STRING_SESSION2;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 
-function Service() {
+async function Service() {
   const client = new TelegramClient(
     new StringSession(stringSession),
     +apiId,
     apiHash,
-    { connectionRetries: 1 }
+    {
+      connectionRetries: 1,
+    }
   );
 
-  client.start({
+  await client.start({
     phoneNumber: async () => await input.text("number ?"),
     password: async () => await input.text("password?"),
     phoneCode: async () => await input.text("code ?"),
     onError: (err) => console.log(err),
   });
+
   console.log("You should now be connected.");
+
+  // client.start()
 
   // // MY CLIENT DIAGLOS
   // const dialogs = await client.getDialogs();
 
-  // // PARTICIPANTS OF CHAT
-  // const particip = await client.getParticipants("-1001529421031");
+  // PARTICIPANTS OF CHAT
 
   // section for CHANNEL
   const channelPlatformId = "-1001789253515";
@@ -53,7 +57,7 @@ function Service() {
         })
       );
 
-      const length = history.messages.length;
+      const length = history.messages?.length;
 
       if (length === 0) {
         break;
@@ -126,7 +130,7 @@ function Service() {
           limit: 100,
         })
       );
-      const length = history.messages.length;
+      const length = history?.messages?.length;
 
       if (length === 0) {
         break;
@@ -140,7 +144,9 @@ function Service() {
       (message) => message.date <= inputDateMS
     );
     const usersWithMsgsList = generateList(messagesUntilDate);
-    const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList);
+    const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
+      (a, b) => b.msgs?.length - a.msgs?.length
+    );
 
     return chatUsersInfo;
   }
@@ -148,6 +154,8 @@ function Service() {
   // data of ids
   const { log } = console;
   const getUsers = async (data) => {
+    const particip = await client.getParticipants("-1001529421031");
+
     const unique = [...new Set(data.map((i) => BigInt(i)))];
 
     const newArr = particip
@@ -173,7 +181,5 @@ function Service() {
 
   return { getChannel, getChat, getUsers };
 }
-
-
 
 module.exports = Service;

@@ -1,3 +1,5 @@
 import React from 'react';
 
-export const Dashboard = () => <div>Dashboard</div>;
+export function Dashboard() {
+  return <div>Dashboard</div>;
+}

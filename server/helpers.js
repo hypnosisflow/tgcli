@@ -16,7 +16,7 @@ function getSortedUsersInfo(arr) {
       const msg = { msg: i.msg, msgId: i.msgId, date: i.date };
       return msg;
     });
-    const result = { userId: id, msgs: msgsList };
+    const result = { user_id: id, msgs: msgsList };
     return result;
   });
 

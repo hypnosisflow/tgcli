@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 export const DataContext = createContext({});
 
-export const DataContextWrapper = ({ children }) => {
+export function DataContextWrapper({ children }) {
   const [channelData, setChannelData] = useState({
     id: '',
     data: null,
@@ -11,7 +11,7 @@ export const DataContextWrapper = ({ children }) => {
   });
   const [chatData, setChatData] = useState({
     id: '',
-    data: null,
+    data: [],
     period: '',
     date: null,
   });
@@ -26,18 +26,18 @@ export const DataContextWrapper = ({ children }) => {
     });
   };
 
-  const handleChatData = (data) => {
+  const handleChatData = (response) => {
     setChatData({
-      id: data?.chatId,
-      data: data?.active,
-      period: data?.period,
-      date: data.date,
+      id: response.id,
+      data: response.data,
+      period: response.period,
+      date: response.date,
     });
   };
 
   const handleUpdataChat = (data) => {
-    setChatData(prev => ({ ...prev, data }))
-  }
+    setChatData((prev) => ({ ...prev, data }));
+  };
 
   const handleDatabase = (data) => {
     setDatabase(data);
@@ -47,20 +47,23 @@ export const DataContextWrapper = ({ children }) => {
     setChatData((prev) => ({ ...prev, data }));
   };
 
+  const contextValue = useMemo(() => ({
+    channelData,
+    handleChannelData,
+    chatData,
+    handleChatData,
+    database,
+    handleDatabase,
+    handleDeleteUser,
+    handleUpdataChat,
+    // eslint-disable-next-line max-len
+  }), [channelData, handleChannelData, chatData, handleChatData, database, handleDatabase, handleDeleteUser, handleUpdataChat]);
+
   return (
     <DataContext.Provider
-      value={{
-        channelData,
-        handleChannelData,
-        chatData,
-        handleChatData,
-        database,
-        handleDatabase,
-        handleDeleteUser,
-        handleUpdataChat
-      }}
+      value={contextValue}
     >
       {children}
     </DataContext.Provider>
   );
-};
+}

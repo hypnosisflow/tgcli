@@ -7,7 +7,7 @@ const oneMonthMS = weekMS * 4;
 const oneWeekAgo = today.getTime() - weekMS;
 const theeDaysAgo = today.getTime() - threeDaysMS;
 const oneMonthAgo = today.getTime() - oneMonthMS;
-const threeMonthsAgo = today.getTime() - oneMonthMS * 4;
+const threeMonthsAgo = today.getTime() - oneMonthMS * 3;
 
 function setPeriod(period) {
   switch (period) {
