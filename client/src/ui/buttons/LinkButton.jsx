@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-export const LinkButton = () => {
+export function LinkButton() {
   return (
     <div>LinkButton</div>
-  )
+  );
 }

@@ -1,67 +1,33 @@
-import React, { useState, useContext } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { Dashboard } from './components/dashboard';
-import { Database } from './components/database';
+import Database from './components/database';
 import { Navbar } from './components/navbar';
-import { Request } from './components/request';
+import Request from './components/request';
+import { DatabaseModal } from './ui/database-modal';
+import RequestUserModal from './ui/request-user-modal';
 
-import { DataContext } from './Context';
-import axios from 'axios';
 import './App.css';
 
-const App = () => {
-  const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState({ type: '', period: '' });
-  const [data, setData] = useState({ id: '', data: [] });
-
-  const { handleChatData } = useContext(DataContext);
-
-  const generate = async (query, filter, id) => {
-    setData(null);
-    setLoading(true);
-
-    try {
-      const date = new Date();
-      const req = await axios.get('http://localhost:5050/', {
-        params: { type: 'chat', period: filter, id },
-      });
-      if (req.status === 200) {
-        // setData({ id: req.data.chatId, data: req.data.response });
-        // console.log(req.data.response);
-        handleChatData({ data: req.data.response, id: id, period: filter, date: date });
-        setTitle({ type: query, period: filter });
-        setLoading(false);
-      } else {
-        setLoading(false);
-        throw new Error('data request error');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   return (
     <main className="flex flex-col items-center justify-start h-auto w-full">
       <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <Request
-              data={data?.data}
-              generate={generate}
-              loading={loading}
-              title={title}
-              chatId={data?.id}
-            />
-          )}
-        />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+      <Routes location={background || location}>
+        <Route path="/" element={(<Request />)} />
         <Route path="/database" element={<Database />} />
       </Routes>
+      {background && (
+        <Routes>
+          <Route path="/user/:id" element={<RequestUserModal />} />
+          <Route path="/database/:id" element={<DatabaseModal />} />
+        </Routes>
+      )}
     </main>
   );
-};
+}
 
 export default App;

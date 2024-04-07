@@ -2,17 +2,16 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { CSVLink } from 'react-csv';
 
+import { CardPreview } from '../ui/card-preview';
+
 import { DataContext } from '../Context';
-import { DatabaseCard } from '../ui/database-card';
 import { Button } from '../ui/buttons/Button';
 
-export const Database = () => {
+function Database() {
   const { database, handleDatabase } = useContext(DataContext);
-
-
   const fetchDB = async () => {
     try {
-      const req = await axios.get('http://localhost:5050/database');
+      const req = await axios.get('https://tgserver.vercel.app/database');
 
       if (req.status === 200) {
         handleDatabase(req.data.data.rows);
@@ -45,38 +44,52 @@ export const Database = () => {
 
   const data = generate(database);
 
-  const renderCards = (arr) => (
-    <ul className="flex mt-2 mb-4 w-full text-sm  flex-wrap justify-center gap-y-4 gap-x-4 max-h-[640px] overflow-y-scroll  ">
-      {arr?.map((i, index) => <DatabaseCard i={i} key={index} />)}
-    </ul>
-  );
 
-  const view = renderCards(database);
 
   return (
-    <div className="h-[800px] w-full bg-white rounded-2xl py-2 relative">
-      <p className="text-black text-sm font-semibold uppercase">Database</p>
-      <p className="text-xs opacity-50">
-        Infromation fetched from elephant sql.
+    <div className="h-[800px] w-full  rounded-2xl py-2 relative">
+      <p className="text-black text-sm font-semibold ">
+        Database
+        <p className='text-xs font-normal text-slate-500'>
+          Infromation fetched from elephant sql.
+        </p>
       </p>
-      {view}
-      {!data && (
-        <Button cb={fetchDB} value="request" theme="black" />
-      )}
+
+      <div className='flex gap-2'>
+        <div className='flex items-center justify-center min-w-[320px] border'>
+          <h3>FILTERS</h3>
+        </div>
+
+        <ul className=" mt-2 mb-4 text-sm  grid grid-cols-3 w-full gap-2  mx-auto max-h-[640px] overflow-y-scroll overflow-x-hidden  ">
+          {database?.map((i, index) =>
+            <CardPreview item={i} key={index} />
+            // <DatabaseCard i={i} key={index} />
+
+          )}
+        </ul>
+      </div>
+
+
+
+      <Button cb={fetchDB} value="Get Users From Database" theme="black" />
       {data && (
-        <>
-          <p className="text-xs font-bold mt-8 mb-2">
-            Users loaded: {database?.length}
+        <div className='flex items-center gap-2 justify-center'>
+          <p className="text-xs font-bold ">
+            Users loaded:
+            {' '}
+            {database?.length}
           </p>
           <CSVLink
             data={data}
             headers={csv}
-            className="  h-[32px] text-sm  text-black px-4 py-2 bg-slate-100 mt-2 rounded-md"
+            className="  h-[28px] text-sm  px-4 flex items-center  bg-black text-white rounded-md"
           >
             Download as CSV
           </CSVLink>
-        </>
+        </div>
       )}
     </div>
   );
-};
+}
+
+export default Database;

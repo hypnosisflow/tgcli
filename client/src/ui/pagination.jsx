@@ -1,25 +1,26 @@
-import React, { useEffect } from "react";
-import usePagination from "../hooks/usePagination";
-export const Pagination = (props) => {
-    const { pageNumber, changePage, pageData, nextPage, previousPage } =
-        usePagination(props.items, props.pageLimit);
+import React, { useEffect } from 'react';
+import usePagination from '../hooks/usePagination';
 
-    useEffect(() => {
-        props.setPageItems(pageData);
-    }, [pageNumber]);
+export function Pagination(props) {
+  const {
+    pageNumber, changePage, pageData, nextPage, previousPage,
+  } = usePagination(props.items, props.pageLimit);
 
-    return (
-        <div>
-            <b onClick={previousPage}>Prev</b>
-            <input
-                value={pageNumber}
-                onChange={(e) => {
-                    changePage(e.target.valueAsNumber);
-                }}
-                type="number"
-            />
-            <b onClick={nextPage}>Next</b>
-        </div>
-    );
-};
+  useEffect(() => {
+    props.setPageItems(pageData);
+  }, [pageNumber]);
 
+  return (
+    <div>
+      <b onClick={previousPage}>Prev</b>
+      <input
+        value={pageNumber}
+        onChange={(e) => {
+          changePage(e.target.valueAsNumber);
+        }}
+        type="number"
+      />
+      <b onClick={nextPage}>Next</b>
+    </div>
+  );
+}

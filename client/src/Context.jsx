@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 export const DataContext = createContext({});
 
-export const DataContextWrapper = ({ children }) => {
+export function DataContextWrapper({ children }) {
   const [channelData, setChannelData] = useState({
     id: '',
     data: null,
@@ -17,8 +17,6 @@ export const DataContextWrapper = ({ children }) => {
   });
   const [database, setDatabase] = useState(null);
 
-  console.log(chatData)
-
   const handleChannelData = (data) => {
     setChannelData({
       id: data.chatId,
@@ -28,19 +26,18 @@ export const DataContextWrapper = ({ children }) => {
     });
   };
 
-  const handleChatData = ({ data, id, period, date }) => {
-    console.log('handler', data)
+  const handleChatData = (response) => {
     setChatData({
-      id: id,
-      data: data,
-      period: period,
-      date: date,
+      id: response.id,
+      data: response.data,
+      period: response.period,
+      date: response.date,
     });
   };
 
   const handleUpdataChat = (data) => {
-    setChatData(prev => ({ ...prev, data }))
-  }
+    setChatData((prev) => ({ ...prev, data }));
+  };
 
   const handleDatabase = (data) => {
     setDatabase(data);
@@ -50,20 +47,23 @@ export const DataContextWrapper = ({ children }) => {
     setChatData((prev) => ({ ...prev, data }));
   };
 
+  const contextValue = useMemo(() => ({
+    channelData,
+    handleChannelData,
+    chatData,
+    handleChatData,
+    database,
+    handleDatabase,
+    handleDeleteUser,
+    handleUpdataChat,
+    // eslint-disable-next-line max-len
+  }), [channelData, handleChannelData, chatData, handleChatData, database, handleDatabase, handleDeleteUser, handleUpdataChat]);
+
   return (
     <DataContext.Provider
-      value={{
-        channelData,
-        handleChannelData,
-        chatData,
-        handleChatData,
-        database,
-        handleDatabase,
-        handleDeleteUser,
-        handleUpdataChat
-      }}
+      value={contextValue}
     >
       {children}
     </DataContext.Provider>
   );
-};
+}

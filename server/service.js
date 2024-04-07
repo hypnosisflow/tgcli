@@ -14,7 +14,7 @@ const stringSession = process.env.STRING_SESSION2;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 
-function Service() {
+async function Service() {
   const client = new TelegramClient(
     new StringSession(stringSession),
     +apiId,
@@ -24,7 +24,7 @@ function Service() {
     }
   );
 
-  client.start({
+  await client.start({
     phoneNumber: async () => await input.text("number ?"),
     password: async () => await input.text("password?"),
     phoneCode: async () => await input.text("code ?"),

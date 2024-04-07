@@ -1,15 +1,17 @@
 import React from 'react';
 
-export const Spinner = () => (
-  <div className="lds-grid ">
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-  </div>
-);
+export function Spinner() {
+  return (
+    <div className="lds-grid ">
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  );
+}

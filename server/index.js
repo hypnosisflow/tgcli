@@ -24,23 +24,43 @@ app.use(express.json({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 //   const chat = await service.getChat(id, period);
 //   const users = await service.getUsers(data);
 // };
-const service = Service();
 
 app.get("/", async (req, res) => {
+  const service = await Service();
+
   const { id, type, period, data } = req.query;
 
-  try {
-    const response = await service.getChat(id, period);
-    console.log(response);
+  console.log("type", type);
 
-    res.send({
-      response: response,
-      type: req.query.type,
-      chatId: req.query.id,
-    });
-  } catch (error) {
-    console.log(error, "err");
-    res.json({ error: error, msg: "Error on server (LOAD SERVICE)" });
+  if (!type) res.json({ msg: "Welcom to TGServer!" });
+
+  if (type === "chat") {
+    try {
+      const response = await service.getChat(id, period);
+      // console.log(response);
+
+      res.send({
+        response: response,
+        type: req.query.type,
+        chatId: req.query.id,
+      });
+    } catch (error) {
+      console.log(error, "err");
+      res.json({ error: error, msg: "Error on server (LOAD SERVICE) TG" });
+    }
+  }
+
+  if (type === "user") {
+    try {
+      const response = await service.getUsers(data);
+      console.log("user", response);
+      res.send({
+        response: response,
+      });
+    } catch (error) {
+      console.log(error, "err");
+      res.json({ error: error, msg: "Error on server (LOAD SERVICE) TG" });
+    }
   }
 });
 
@@ -56,7 +76,7 @@ app.get("/database", async (req, res) => {
 
 app.get("/dashboard", async (req, res) => {
   const { id, type, period, data } = req.query;
-  console.log('da', data)
+  console.log("da", data);
 
   try {
     // const response = await loadService(req);

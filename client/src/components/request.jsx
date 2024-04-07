@@ -1,53 +1,39 @@
-import React, { useState } from 'react';
-
-import { ChatFilter } from '../ui/chat-filter';
-import { ChatTypeSelect } from '../ui/chat-type-select';
+import React, { useState, useContext } from 'react';
 
 import { AIAnalyze } from './ai-analyze';
-import { UsersData } from './user-data';
-import { Button } from '../ui/buttons/Button';
+import UsersData from './user-data';
+import { DataContext } from '../Context';
+import { getChatData } from '../utils/api';
+import RequestChatForm from '../ui/forms/request-chat-form';
 
-export const Request = ({
-  data, generate, loading, title, chatId,
-}) => {
-  const [searchId, setSearchId] = useState('');
-  const [query, setQuery] = useState('chat');
-  const [filter, setFilter] = useState('');
-  const handleFilter = (input) => {
-    switch (input) {
-      case 'week': return setFilter('week');
-      case 'month': return setFilter('month');
-      case 'quater': return setFilter('quater');
+function Request() {
+  const [loading, setLoading] = useState(false);
+  const { handleChatData, chatData } = useContext(DataContext);
+
+  const handleGenerate = async (e, period, id) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await getChatData(period, id);
+      handleChatData(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      throw new Error('chekc error', error);
     }
-    console.log('filter setted')
-  }
+  };
 
   return (
     <section className="flex gap-[20px] w-full justify-start ">
-
-      <div className='flex flex-col'>
-        <div
-          className={`flex flex-col relative w-full max-w-[320px] mt-2 transition ease-in-out duration-500 delay-200`}
-        >
-          <ChatTypeSelect id={searchId} setId={setSearchId} />
-          <ChatFilter filter={filter} handleFilter={handleFilter} />
-          <div className='flex gap-2 mt-8'>
-            <Button
-              value='Clear'
-              // cb={() => generate(query, filter, searchId)}
-              disabled={!query}
-              theme='smoke' />
-            <Button
-              value='Generate'
-              cb={() => generate(query, filter, searchId)}
-              disabled={!query}
-              theme='black' />
-          </div>
-        </div>
-        <AIAnalyze arr={data} />
+      <div className="flex flex-col">
+        <RequestChatForm handleGenerate={handleGenerate} />
+        <AIAnalyze arr={chatData.data} />
       </div>
-        
-      <UsersData loading={loading} data={data} title={title} chatId={chatId} />
+
+      <UsersData loading={loading} />
     </section>
   );
-};
+}
+
+export default Request;

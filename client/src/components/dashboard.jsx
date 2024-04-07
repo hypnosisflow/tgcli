@@ -5,10 +5,8 @@ import { DataContext } from '../Context';
 import { ChatUserCard } from '../ui/chat-user-card';
 import { Button } from '../ui/buttons/Button';
 
-export const Dashboard = () => {
+export function Dashboard() {
   const { channelData, chatData, handleUpdataChat } = useContext(DataContext);
-
- 
 
   return (
     <section className=" h-full py-2 w-full bg-white rounded-2xl border-white border relative">
@@ -35,16 +33,15 @@ export const Dashboard = () => {
             </ul>
 
             <div className="flex text-sm gap-2 justify-center imtems-center mt-4 mx-auto  mb-2">
-              <Button cb={() => reqUserFullInfo(chatData)} value='request full info' theme={'smoke'} />
-              <Button cb={() => alert('coming')} value='clear dashboard' theme={'smoke'} />
-              <Button cb={() => send(chatData)} value='send to database' theme={'black'} />
+              <Button cb={() => reqUserFullInfo(chatData)} value="request full info" theme="smoke" />
+              <Button cb={() => alert('coming')} value="clear dashboard" theme="smoke" />
+              <Button cb={() => send(chatData)} value="send to database" theme="black" />
             </div>
           </div>
         )}
 
       </div>
 
-
     </section>
   );
-};
+}
