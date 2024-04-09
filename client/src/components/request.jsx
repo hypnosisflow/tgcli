@@ -15,7 +15,7 @@ function Request() {
     setLoading(true);
 
     try {
-      const response = await getChatData(period, id);
+      const response = await getChatData(period.toLowerCase(), id);
       handleChatData(response);
       setLoading(false);
     } catch (error) {
@@ -25,13 +25,16 @@ function Request() {
   };
 
   return (
-    <section className="flex gap-[20px] w-full justify-start ">
+    <section className="flex flex-col md:flex-row gap-[20px] w-full justify-start items-center md:items-start px-2 lg:px-0">
       <div className="flex flex-col">
         <RequestChatForm handleGenerate={handleGenerate} />
         <AIAnalyze arr={chatData.data} />
       </div>
 
-      <UsersData loading={loading} />
+
+      {!loading && chatData.data?.length > 0 && <UsersData />}
+
+      {/* <UsersData loading={loading} /> */}
     </section>
   );
 }

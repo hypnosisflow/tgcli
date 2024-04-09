@@ -116,16 +116,19 @@ async function Service() {
   // section for GROUP CHAT
   const chatId = "-1001529421031";
 
-  async function getChat(chat, inputDate) {
+  async function getChat(chat = chatId, period) {
     const newFullArray = [];
     let lastItemDate = Date.now();
     let offset = 0;
-    let inputDateMS = setPeriod(inputDate);
 
-    while (lastItemDate > inputDateMS) {
+    // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки 
+    let target = setPeriod(period);
+
+    while (lastItemDate > target.to) {
       const history = await client.invoke(
         new Api.messages.GetHistory({
           peer: chatId,
+          offsetDate: target.from,
           offsetId: offset,
           limit: 100,
         })
@@ -141,7 +144,7 @@ async function Service() {
       newFullArray.push(...history.messages);
     }
     const messagesUntilDate = newFullArray.filter(
-      (message) => message.date <= inputDateMS
+      (message) => message.date <= target.to
     );
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
@@ -162,7 +165,7 @@ async function Service() {
       .map((i) => {
         if (unique.includes(i.id?.value)) {
           return {
-            userId: i.id.value.toString(),
+            user_id: i.id.value.toString(),
             username: i.username,
             firstname: i.firstName,
             lastname: i.lastName,
