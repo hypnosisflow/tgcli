@@ -22,12 +22,12 @@ export function ChatTypeSelect({
     </div> */}
       <p className="text-gray-500 text-xs">
         You need to provide
-        <span className="font-semibold text-gray-800">GROUP</span>
+        <span className="font-semibold text-gray-800"> GROUP</span>
         {' '}
         chat ID.
         <br />
         Chat should be
-        <span className="font-semibold text-gray-800">public</span>
+        <span className="font-semibold text-gray-800"> public</span>
         .
       </p>
 

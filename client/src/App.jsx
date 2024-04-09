@@ -12,14 +12,15 @@ import './App.css';
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
-
   return (
     <main className="flex flex-col items-center justify-start h-auto w-full">
       <Navbar />
+
       <Routes location={background || location}>
         <Route path="/" element={(<Request />)} />
         <Route path="/database" element={<Database />} />
       </Routes>
+
       {background && (
         <Routes>
           <Route path="/user/:id" element={<RequestUserModal />} />

@@ -8,7 +8,7 @@ import { getUserFullInfo } from '../utils/api';
 import RequestCardPreview from '../ui/request-card-priew';
 import LengthFilters from '../ui/filters/length-filters';
 
-function UsersData({ loading }) {
+function UsersData() {
   const { chatData, handleUpdataChat } = useContext(DataContext);
   const [saved, setSaved] = useState(false);
   const [filter, setFilter] = useState('initial');
@@ -76,10 +76,12 @@ function UsersData({ loading }) {
 
   const handleUserFullInfo = async (arr) => {
     const data = await getUserFullInfo(arr);
+    // console.log('DATA', data)
+
     handleUpdataChat(data);
   };
 
-  if (loading) return <Loader />;
+  // if () return <Loader />;
 
   return (
     <div className="flex flex-col justify-start w-full mt-2">
@@ -91,8 +93,8 @@ function UsersData({ loading }) {
         <span className="text-sm opacity-50 ">{chatData.period}</span>
       </div>
 
-      <div className='w-full flex justify-between'>
-        <div>
+      <div className='w-full flex flex-col md:flex-row justify-between'>
+        <div className='max-w-[320px] w-full flex flex-col '>
           <LengthFilters filter={filter} doFilter={doFilter} chatData={chatData} />
 
           <div className='w-full gap-2 flex text-sm items-center justify-between'>
@@ -101,7 +103,7 @@ function UsersData({ loading }) {
           </div>
         </div>
 
-        <div className="max-w-[320px] w-full flex flex-col justify-between ">
+        <div className="max-w-[320px] w-full flex flex-col gap-2 mt-4 md:mt-0 justify-between ">
           <Button
             cb={() => handleUserFullInfo(active)}
             value="Find extra info"

@@ -6,24 +6,26 @@ function RequestCardPreview({ item }) {
 
 
     return (
-        <li className="flex flex-col text-sm w-[290px] justify-center px-1 py-2 border rounded-md">
-            <div className="flex flex-col w-full font-bold">
+        <li className="flex flex-col text-sm w-[290px] justify-center px-2 py-2 border rounded-md">
+            <div className="flex flex-col w-full font-bold " >
                 <p>
                     Telegram ID:
-                    <span className="font-normal ml-2">{item.user_d}</span>
+                    <span className="font-normal ml-2">{item.user_id}</span>
                 </p>
-                <p>
-                    Messages:
-                    <span className="font-normal ml-2">{item?.msgs?.length}</span>
-                </p>
-                <p>
-                    Events:
-                    <span className="font-normal ml-2">{item.events ?? '- - -'}</span>
-                </p>
+                <div className='flex justify-between text-left'>
+                    <p className='w-full'> 
+                        Messages:
+                        <span className="font-normal ml-2">{item?.msgs?.length}</span>
+                    </p>
+                    <p className='w-full'>
+                        Events:
+                        <span className="font-normal ml-2">{item.events ?? '0'}</span>
+                    </p>
+                </div>
             </div>
 
-            <div className=' flex flex-col items-center'>
-                <Link to={`/user/${item.user_d}`} state={{ background: location }}>
+            <div className=' flex flex-col items-center mt-2'>
+                <Link to={`/user/${item.user_id}`} state={{ background: location }} className='text-xs text-black'>
                     See Full Information
                 </Link>
             </div>
