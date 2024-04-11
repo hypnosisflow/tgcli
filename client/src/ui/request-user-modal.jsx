@@ -15,11 +15,11 @@ function RequestUserModal() {
         navigate(-1)
     }
 
-    const blob = new Blob([user.photo.thumb.data], { type: 'image/jpeg' });
+    // const blob = new Blob([user.photo.thumb.data], { type: 'image/jpeg' });
 
-    // Create a URL representing the blob
-    const url = URL.createObjectURL(blob);
-    console.log(url)
+    // // Create a URL representing the blob
+    // const url = URL.createObjectURL(blob);
+    // console.log(url)
 
 
 

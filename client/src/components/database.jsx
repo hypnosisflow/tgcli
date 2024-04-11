@@ -48,19 +48,25 @@ function Database() {
 
   return (
     <div className="h-[800px] w-full  rounded-2xl py-2 relative">
-      <p className="text-black text-sm font-semibold ">
-        Database
-        <p className='text-xs font-normal text-slate-500'>
-          Infromation fetched from elephant sql.
-        </p>
-      </p>
+      <div className=' flex'>
+        <div className='flex w-[320px] flex-col'>
+          <p className="text-black text-sm font-semibold ">
+            Database
+          </p>
+          <p className='text-xs font-normal mb-4 text-slate-500'>
+            Infromation fetched from elephant sql.
+          </p>
+        </div>
+        <Button cb={fetchDB} value="Get Database" theme="black" className="max-w-[160px]" />
 
-      <div className='flex gap-2'>
-        <div className='flex items-center justify-center min-w-[320px] border'>
-          <h3>FILTERS</h3>
+      </div>
+
+      <div className='flex gap-2 flex-col md:flex-row'>
+        <div className='flex items-center py-8 h-fit justify-center min-w-[160px] mt-2 flex-col rounded-md bg-white shadow-sm'>
+          <h3 className='text-sm font-semibold text-left'>Filters</h3>
         </div>
 
-        <ul className=" mt-2 mb-4 text-sm  grid grid-cols-3 w-full gap-2  mx-auto max-h-[640px] overflow-y-scroll overflow-x-hidden  ">
+        <ul className=" mt-2 mb-4 text-sm  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2  mx-auto max-h-[640px] overflow-y-scroll overflow-x-hidden  ">
           {database?.map((i, index) =>
             <CardPreview item={i} key={index} />
             // <DatabaseCard i={i} key={index} />
@@ -71,7 +77,6 @@ function Database() {
 
 
 
-      <Button cb={fetchDB} value="Get Users From Database" theme="black" />
       {data && (
         <div className='flex items-center gap-2 justify-center'>
           <p className="text-xs font-bold ">

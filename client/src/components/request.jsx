@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
-import { AIAnalyze } from './ai-analyze';
-import UsersData from './user-data';
+import AIAnalyze from './ai-analyze';
+import UsersData from './user-data';  
 import { DataContext } from '../Context';
 import { getChatData } from '../utils/api';
 import RequestChatForm from '../ui/forms/request-chat-form';
@@ -34,7 +34,6 @@ function Request() {
 
       {!loading && chatData.data?.length > 0 && <UsersData />}
 
-      {/* <UsersData loading={loading} /> */}
     </section>
   );
 }

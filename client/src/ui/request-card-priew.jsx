@@ -6,7 +6,7 @@ function RequestCardPreview({ item }) {
 
 
     return (
-        <li className="flex flex-col text-sm w-[290px] justify-center px-2 py-2 border rounded-md">
+        <li className="flex flex-col mx-auto bg-white text-sm w-[290px] justify-center px-2 py-2 shadow-sm rounded-md">
             <div className="flex flex-col w-full font-bold " >
                 <p>
                     Telegram ID:

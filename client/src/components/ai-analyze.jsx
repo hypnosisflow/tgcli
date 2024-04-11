@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/buttons/Button';
 import { Spinner } from '../ui/spinner';
 
-export function AIAnalyze({ arr }) {
+function AIAnalyze({ arr }) {
   const [targetUserId, setTargetUserId] = useState('');
   const [gptReponse, setGptReponse] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,6 @@ export function AIAnalyze({ arr }) {
     dangerouslyAllowBrowser: true,
   });
 
-  console.log(openai);
 
   async function request() {
     setGptReponse(null);
@@ -31,11 +30,7 @@ export function AIAnalyze({ arr }) {
         model: 'gpt-3.5-turbo',
       });
 
-      console.log('completion', completion);
-
       const response = JSON.parse(completion.choices[0].message.content);
-
-      console.log('res', response);
 
       const stats = {};
       response.forEach((item) => {
@@ -64,15 +59,17 @@ export function AIAnalyze({ arr }) {
         <input
           type="text"
           value={targetUserId}
-          className="border h-[32px] rounded-md w-full px-2 mb-8"
+          className="border h-[32px] rounded-md w-full px-2 mb-2"
           onChange={(e) => setTargetUserId(e.target.value)}
         />
+        <span className='text-red-500 font-bold ml-1'>!</span><span className="text-xs text-gray-500"> Experemental feature. Not available in beta test</span><span className='text-red-500 font-bold ml-1'>!</span>
         <Button
           value="Analyze "
           cb={request}
           theme="black"
+          disabled
         />
-        {loading ? (
+        {/* {loading ? (
           <Spinner />
         ) : (
           <div className="border w-full  rounded-md mt-4  p-1">
@@ -103,8 +100,10 @@ export function AIAnalyze({ arr }) {
             </span>
             <span className="ml-1">{transformedScore.positive}</span>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
 }
+
+export default AIAnalyze;
