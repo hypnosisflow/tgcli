@@ -8,6 +8,7 @@ import { DatabaseModal } from './ui/database-modal';
 import RequestUserModal from './ui/request-user-modal';
 
 import './App.css';
+import HelpModal from './ui/modals/help';
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/user/:id" element={<RequestUserModal />} />
           <Route path="/database/:id" element={<DatabaseModal />} />
+          <Route path="/help" element={<HelpModal />} />
         </Routes>
       )}
     </main>
