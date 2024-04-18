@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 export function ChatTypeSelect({
+
+
   id, setId, query, setQuery,
 }) {
+
+  const location = useLocation()
   return (
     <div className="w-full text-sm">
       <p className="font-semibold">Type chat ID:</p>
@@ -20,7 +25,7 @@ export function ChatTypeSelect({
         onClick={() => setQuery('chat')}
       />
     </div> */}
-      <p className="text-gray-500 text-xs">
+      <span className="text-gray-500 text-xs">
         You need to provide
         <span className="font-semibold text-gray-800"> GROUP</span>
         {' '}
@@ -29,7 +34,9 @@ export function ChatTypeSelect({
         Chat should be
         <span className="font-semibold text-gray-800"> public</span>
         .
-      </p>
+      </span>
+
+
 
       <input
         placeholder="Hardcoded"
@@ -38,6 +45,12 @@ export function ChatTypeSelect({
         className="border mt-2 h-[32px] rounded-md w-full px-2"
         onChange={(e) => setId(e.target.value)}
       />
+
+      <Link to={`/help`} state={{ background: location }}>
+        <p className="text-xs text-gray-500 mt-2">
+          How to?
+        </p>
+      </Link>
     </div>
   );
 }

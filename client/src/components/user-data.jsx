@@ -14,6 +14,7 @@ function UsersData() {
   const [filter, setFilter] = useState('initial');
   const [active, setActive] = useState(null);
   const [searchId, setSearchId] = useState('');
+  const [uploadingExtraUsersData, setUploadingExtraUsersData] = useState('none')
 
   const handleSearchId = (e) => {
     setSearchId(e.target.value);
@@ -22,7 +23,7 @@ function UsersData() {
   useEffect(() => {
     if (searchId) {
       const findItems = chatData.data.filter((item) => {
-        const subStr = item.user_d.slice(0, searchId.length);
+        const subStr = item.user_id.slice(0, searchId.length);
         if (subStr === String(searchId)) return item;
       });
 
@@ -32,7 +33,6 @@ function UsersData() {
     }
 
   }, [searchId, chatData.data])
-
 
   // debugger
 
@@ -75,17 +75,17 @@ function UsersData() {
   };
 
   const handleUserFullInfo = async (arr) => {
+    setUploadingExtraUsersData('loading')
     const data = await getUserFullInfo(arr);
-    // console.log('DATA', data)
-
-    handleUpdataChat(data);
+    if (data.length > 0) {
+      setUploadingExtraUsersData('success')
+      handleUpdataChat(data);
+    }
   };
-
-  // if () return <Loader />;
 
   return (
     <div className="flex flex-col justify-start w-full mt-2">
-      <div className="flex gap-4 mx-auto w-full   ">
+      <div className="flex gap-4 w-full items-center justify-center mb-4 md:mb-0   ">
         <span className=" text-sm  font-semibold">
           Posters: {chatData.data?.length}
         </span>
@@ -93,8 +93,8 @@ function UsersData() {
         <span className="text-sm opacity-50 ">{chatData.period}</span>
       </div>
 
-      <div className='w-full flex flex-col md:flex-row justify-between'>
-        <div className='max-w-[320px] w-full flex flex-col '>
+      <div className='w-full flex flex-col md:flex-row items-center justify-between'>
+        <div className='max-w-[320px] w-full flex  flex-col '>
           <LengthFilters filter={filter} doFilter={doFilter} chatData={chatData} />
 
           <div className='w-full gap-2 flex text-sm items-center justify-between'>
@@ -104,15 +104,22 @@ function UsersData() {
         </div>
 
         <div className="max-w-[320px] w-full flex flex-col gap-2 mt-4 md:mt-0 justify-between ">
-          <Button
-            cb={() => handleUserFullInfo(active)}
-            value="Find extra info"
-            theme="black"
-          />
+          <div className='flex gap-6 justify-between items-center'>
+            {uploadingExtraUsersData === 'none' && <span className='text-xs font-bold w-full leading-4 '>Find extra information</span>}
+            {uploadingExtraUsersData === 'loading' && <span className='text-xs font-bold w-full '>Please wait...</span>}
+            {uploadingExtraUsersData === 'success' && <span className='text-xs font-bold w-full '>Information uploaded!</span>}
+            <Button
+              cb={() => handleUserFullInfo(active)}
+              value="Try"
+              theme="black"
+
+            />
+          </div>
+
           <div className="flex gap-2">
             <Button value="Clear" theme="smoke" />
             <Button
-              cb={() => handleSaveIntoDB(chatData)}
+              cb={() => alert('You dont have access! hypnosisflow@gmail.com')}
               value={saved ? 'Saved' : '-> Database'}
               theme="black"
             />
@@ -121,7 +128,7 @@ function UsersData() {
       </div>
 
       {active?.length > 0 && (
-        <ul className=" mt-2 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-y-4 max-h-[740px]  pr-2 overflow-y-scroll">
+        <ul className=" mt-2 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3  gap-y-4 max-h-[740px]  pr-2 overflow-y-scroll">
           {active.map((i, index) => (
             <RequestCardPreview item={i} index={index} key={i.userId} />
           ))}

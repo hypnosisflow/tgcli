@@ -6,15 +6,16 @@ import ChatFilter from '../chat-filter';
 
 const MONTHS = ['January', 'February', 'March', 'April'];
 
+const ROMA_CHAT = "-1001337586711";
+
 function RequestChatForm({ handleGenerate }) {
-    const [searchId, setSearchId] = useState('');
+    const [searchId, setSearchId] = useState(ROMA_CHAT);
     const [query] = useState('chat');
     const [filter, setFilter] = useState('');
 
     const [month, setMonth] = useState('')
     const [collapsed, setCollapsed] = useState(false)
 
-    console.log(filter)
     const handleFilter = (input) => {
         switch (input) {
             case 'week': return setFilter('week');
@@ -23,6 +24,25 @@ function RequestChatForm({ handleGenerate }) {
             default: return 'da';
         }
     };
+
+    const handleMonth = (input) => {
+        setCollapsed(false)
+
+        switch (input) {
+            case 'January':
+
+                return setFilter('January')
+            case 'February':
+                return setFilter('February');
+            case 'March':
+                return setFilter('March');
+            case 'April':
+                return setFilter('April');
+            default:
+        }
+
+
+    }
 
 
 
@@ -42,7 +62,7 @@ function RequestChatForm({ handleGenerate }) {
 
                     <ul className={`absolute bg-white w-full text-center rounded-md ${collapsed ? 'block' : 'hidden'}`}>
                         {MONTHS.map((i, index) => <li key={index} className='text-sm flex items-center justify-center h-[32px] text-gray-500 hover:text-black hover:font-semibold cursor-pointer'>
-                            <input type="button" value={i} onClick={() => setFilter(i)} className="w-full cursor-pointer" />
+                            <input type="button" value={i} onClick={() => handleMonth(i)} className="w-full cursor-pointer" />
                         </li>)}
                     </ul>
                 </div>

@@ -21,8 +21,6 @@ export const DatabaseModal = () => {
 
     return (
         <div onClick={() => navigate(-1)} className='fixed bg-black/50 w-full h-full flex justify-center items-center'>
-            <p>DatabaseModal</p>
-
             {user && <DatabaseCard user={user} />}
         </div>
     )
