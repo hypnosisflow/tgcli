@@ -5,7 +5,7 @@ export const getUserFullInfo = async (initialData) => {
   const data = init.map((i) => i.user_id);
 
   try {
-    const req = await axios.get('https://tgserver.vercel.app/', {
+    const req = await axios.get('http://localhost:8080', {
       params: { type: 'user', data },
     });
 
@@ -29,7 +29,7 @@ export const getUserFullInfo = async (initialData) => {
 export const getChatData = async (period, id) => {
   try {
     const date = new Date();
-    const req = await axios.get('https://tgserver.vercel.app/', {
+    const req = await axios.get('http://localhost:8080', {
       // todo: period 
       params: { type: 'chat', period, id },
     });

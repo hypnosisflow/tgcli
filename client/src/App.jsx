@@ -13,7 +13,7 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <main className="flex flex-col items-center justify-start h-auto w-full">
+    <main className="flex flex-col items-center min-h-screen  w-full">
       <Navbar />
 
       <Routes location={background || location}>

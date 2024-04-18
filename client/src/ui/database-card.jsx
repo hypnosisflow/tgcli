@@ -8,7 +8,7 @@ export function DatabaseCard({ user }) {
 
   // console.log(photo);
   return (
-    <div className="max-w-[768px] w-full  py-4 px-2 text-sm bg-white border border-black/5 rounded-md shadow ">
+    <div className="max-w-[410px] h-[] w-full  py-4 px-2 text-sm bg-white border border-black/5 rounded-md shadow ">
       <p className="font-bold text-xs text-gray-500 ">User Information</p>
       <div className="flex justify-between mt-2 text-left">
         <div className="flex flex-col w-full font-bold">
@@ -75,8 +75,8 @@ export function DatabaseCard({ user }) {
 
       <div className='mt-8 w-[320px] flex gap-2 mx-auto'>
 
-        <Button cb={() => alert('coming')} value="Edit" theme="black" />
-        <Button cb={() => alert('coming')} value="Delete" theme="black" />
+        <Button cb={() => alert('You dont have access! hypnosisflow@gmail.com')} value="Edit" theme="black" />
+        <Button cb={() => alert('You dont have access! hypnosisflow@gmail.com')} value="Delete" theme="black" />
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ function Database() {
   return (
     <div className="h-[800px] w-full  rounded-2xl py-2 relative">
       <div className=' flex'>
-        <div className='flex w-[320px] flex-col'>
+        <div className='flex w-[320px] flex-col px-4'>
           <p className="text-black text-sm font-semibold ">
             Database
           </p>
@@ -63,7 +63,23 @@ function Database() {
 
       <div className='flex gap-2 flex-col md:flex-row'>
         <div className='flex items-center py-8 h-fit justify-center min-w-[160px] mt-2 flex-col rounded-md bg-white shadow-sm'>
-          <h3 className='text-sm font-semibold text-left'>Filters</h3>
+          <h3 className='text-sm font-semibold text-left text-gray-500 '>Filters (soon)</h3>
+          {data && (
+            <div className='flex flex-col mt-4 items-center gap-2 justify-center'>
+              <p className="text-xs font-bold ">
+                Users loaded:
+                {' '}
+                {database?.length}
+              </p>
+              <CSVLink
+                data={data}
+                headers={csv}
+                className="  h-[28px] text-sm  px-4 flex items-center font-bold  bg-black text-white rounded-md"
+              >
+                Download as CSV
+              </CSVLink>
+            </div>
+          )}
         </div>
 
         <ul className=" mt-2 mb-4 text-sm  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2  mx-auto max-h-[640px] overflow-y-scroll overflow-x-hidden  ">
@@ -77,22 +93,7 @@ function Database() {
 
 
 
-      {data && (
-        <div className='flex items-center gap-2 justify-center'>
-          <p className="text-xs font-bold ">
-            Users loaded:
-            {' '}
-            {database?.length}
-          </p>
-          <CSVLink
-            data={data}
-            headers={csv}
-            className="  h-[28px] text-sm  px-4 flex items-center  bg-black text-white rounded-md"
-          >
-            Download as CSV
-          </CSVLink>
-        </div>
-      )}
+
     </div>
   );
 }

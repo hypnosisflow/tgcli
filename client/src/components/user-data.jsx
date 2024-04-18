@@ -119,7 +119,7 @@ function UsersData() {
           <div className="flex gap-2">
             <Button value="Clear" theme="smoke" />
             <Button
-              cb={() => handleSaveIntoDB(chatData)}
+              cb={() => alert('You dont have access! hypnosisflow@gmail.com')}
               value={saved ? 'Saved' : '-> Database'}
               theme="black"
             />
