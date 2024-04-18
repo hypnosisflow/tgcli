@@ -52,7 +52,7 @@ app.get("/", async (req, res) => {
 
   if (type === "user") {
     try {
-      const response = await service.getUsers(data);
+      const response = await service.getUsers(data, id);
       console.log("user", response);
       res.send({
         response: response,

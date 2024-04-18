@@ -13,7 +13,7 @@ const setPeriod = require("./helpers/date");
 const chatId = "-1001529421031";
 
 
-const stringSession = process.env.STRING_SESSION2;
+const stringSession = process.env.STRING_SESSION;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 
@@ -33,6 +33,7 @@ async function Service() {
     phoneCode: async () => await input.text("code ?"),
     onError: (err) => console.log(err),
   });
+
 
   console.log("You should now be connected.");
 
@@ -159,8 +160,8 @@ async function Service() {
 
   // data of ids
   const { log } = console;
-  const getUsers = async (data) => {
-    const particip = await client.getParticipants("-1001337586711");
+  const getUsers = async (data, id) => {
+    const particip = await client.getParticipants(id);
 
     const unique = [...new Set(data.map((i) => BigInt(i)))];
 

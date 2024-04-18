@@ -74,9 +74,9 @@ function UsersData() {
     }
   };
 
-  const handleUserFullInfo = async (arr) => {
+  const handleUserFullInfo = async (arr, id) => {
     setUploadingExtraUsersData('loading')
-    const data = await getUserFullInfo(arr);
+    const data = await getUserFullInfo(arr, id);
     if (data.length > 0) {
       setUploadingExtraUsersData('success')
       handleUpdataChat(data);
@@ -109,7 +109,7 @@ function UsersData() {
             {uploadingExtraUsersData === 'loading' && <span className='text-xs font-bold w-full '>Please wait...</span>}
             {uploadingExtraUsersData === 'success' && <span className='text-xs font-bold w-full '>Information uploaded!</span>}
             <Button
-              cb={() => handleUserFullInfo(active)}
+              cb={() => handleUserFullInfo(active, chatData.id)}
               value="Try"
               theme="black"
 
