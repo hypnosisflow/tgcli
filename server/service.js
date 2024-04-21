@@ -122,17 +122,18 @@ async function Service() {
   const ROMA_CHAT = "-1001337586711";
   async function getChat(chat, period) {
     const newFullArray = [];
+    let target = setPeriod(period);
     let lastItemDate = Date.now();
     let offset = 0;
 
     // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки 
-    let target = setPeriod(period);
 
-    while (lastItemDate > target.to) {
+    while (lastItemDate > target.firstDay) {
+      console.log('ALLOW', lastItemDate, target.firstDay);
       const history = await client.invoke(
         new Api.messages.GetHistory({
           peer: chat,
-          offsetDate: target.from,
+          offsetDate: target.lastDay,
           offsetId: offset,
           limit: 100,
         })
@@ -143,13 +144,13 @@ async function Service() {
         break;
       }
 
-      lastItemDate = history.messages[length - 1].date * 1000;
+      lastItemDate = history.messages[length - 1].date ;
       offset = history.messages[length - 1].id;
       newFullArray.push(...history.messages);
     }
     const messagesUntilDate = newFullArray.filter(
-      (message) => message.date <= target.to
-    );
+      (message) =>  message.date >= target.firstDay);
+    // console.log("messagesUntilDate", messagesUntilDate);
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
       (a, b) => b.msgs?.length - a.msgs?.length
