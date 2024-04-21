@@ -35,6 +35,7 @@ async function Service() {
   });
 
 
+
   console.log("You should now be connected.");
 
   // client.start()
@@ -129,7 +130,6 @@ async function Service() {
     // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки 
 
     while (lastItemDate > target.firstDay) {
-      console.log('ALLOW', lastItemDate, target.firstDay);
       const history = await client.invoke(
         new Api.messages.GetHistory({
           peer: chat,
@@ -150,7 +150,6 @@ async function Service() {
     }
     const messagesUntilDate = newFullArray.filter(
       (message) =>  message.date >= target.firstDay);
-    // console.log("messagesUntilDate", messagesUntilDate);
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
       (a, b) => b.msgs?.length - a.msgs?.length
@@ -190,4 +189,5 @@ async function Service() {
   return { getChannel, getChat, getUsers };
 }
 
+Service()
 module.exports = Service;

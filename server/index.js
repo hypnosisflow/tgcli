@@ -3,7 +3,7 @@ const cors = require("cors");
 const client = require("./db");
 const Service = require("./service");
 
-const PORT = process.env.PORT || 5050;
+const PORT = 5050;
 
 const app = express();
 
