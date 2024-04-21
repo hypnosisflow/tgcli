@@ -10,27 +10,24 @@ const oneMonthAgo = today.getTime() - oneMonthMS;
 const threeMonthsAgo = today.getTime() - oneMonthMS * 3;
 
 const January = {
-  from: 1675166399,
-  to : 1672531200000, 
+  firstDay: 1704812799,
+  lastDay: 1706720399, 
 }
 
 const February = {
-  from: 1677844799,
-  to: 1675166400000,
+  firstDay: 1706720400,
+  lastDay: 1709225999,
 }
 
 const March = {
-  from: 1680436799,
-  to: 1677844800000,
+  firstDay: 1709312399,
+  lastDay: 1711904399,
 }
 
 const April = {
-  from: 1683115199,
-  to:1680436800000,
+  firstDay: 1711990799,
+  lastDay: 1714496399,
 }
-
-    // let offsetDate = 1675166400 // January 31, 2024
-    // let targetDate = 1672531200000 // January 1, 2024
 
 function setPeriod(period) {
   switch (period) {

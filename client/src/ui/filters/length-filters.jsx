@@ -4,7 +4,7 @@ import { FilterButton } from "../buttons/FilterButton";
 function LengthFilters({ filter, doFilter, chatData }) {
     return (
         <div className="flex justify-between mb-3">
-            <div className="text-sm w-[320px] flex">
+            <div className="text-sm w-[320px] gap-1 flex">
                 <FilterButton
                     cb={() => doFilter('initial', chatData.data)}
                     filter={filter}

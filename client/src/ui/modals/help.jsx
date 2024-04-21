@@ -5,11 +5,7 @@ import { Button } from '../buttons/Button';
 
 function HelpModal() {
     const navigate = useNavigate();
-    const handleClose = (e) => {
-        e.stopPropagation();
-        console.log('ads', e.currentTarget.id)
-        if (e.currentTarget.id === 'overlay') navigate(-1);
-    }
+
 
     return (
         <div id='overlay' className='absolute bg-black/50 w-full h-full flex justify-center items-center '>

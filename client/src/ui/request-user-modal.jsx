@@ -28,7 +28,7 @@ function RequestUserModal() {
             {user &&
 
 
-                <div className="max-w-[390px] w-full rounded-md h-[600px] flex flex-col justify-center px-4 py-2 bg-white items-center">
+                <div className="max-w-[390px] w-full rounded-md h-[600px] flex flex-col justify-center px-4 py-4 bg-white items-center">
 
                     <div className='flex text-sm w-full'>
                         <div className='w-full flex flex-col font-semibold'>

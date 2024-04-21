@@ -13,7 +13,7 @@ const setPeriod = require("./helpers/date");
 const chatId = "-1001529421031";
 
 
-const stringSession = process.env.STRING_SESSION2;
+const stringSession = process.env.STRING_SESSION;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 
@@ -33,6 +33,8 @@ async function Service() {
     phoneCode: async () => await input.text("code ?"),
     onError: (err) => console.log(err),
   });
+
+
 
   console.log("You should now be connected.");
 
@@ -121,17 +123,17 @@ async function Service() {
   const ROMA_CHAT = "-1001337586711";
   async function getChat(chat, period) {
     const newFullArray = [];
+    let target = setPeriod(period);
     let lastItemDate = Date.now();
     let offset = 0;
 
     // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки 
-    let target = setPeriod(period);
 
-    while (lastItemDate > target.to) {
+    while (lastItemDate > target.firstDay) {
       const history = await client.invoke(
         new Api.messages.GetHistory({
           peer: chat,
-          offsetDate: target.from,
+          offsetDate: target.lastDay,
           offsetId: offset,
           limit: 100,
         })
@@ -142,13 +144,12 @@ async function Service() {
         break;
       }
 
-      lastItemDate = history.messages[length - 1].date * 1000;
+      lastItemDate = history.messages[length - 1].date ;
       offset = history.messages[length - 1].id;
       newFullArray.push(...history.messages);
     }
     const messagesUntilDate = newFullArray.filter(
-      (message) => message.date <= target.to
-    );
+      (message) =>  message.date >= target.firstDay);
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
       (a, b) => b.msgs?.length - a.msgs?.length
@@ -159,8 +160,8 @@ async function Service() {
 
   // data of ids
   const { log } = console;
-  const getUsers = async (data) => {
-    const particip = await client.getParticipants("-1001337586711");
+  const getUsers = async (data, id) => {
+    const particip = await client.getParticipants(id);
 
     const unique = [...new Set(data.map((i) => BigInt(i)))];
 
@@ -188,4 +189,5 @@ async function Service() {
   return { getChannel, getChat, getUsers };
 }
 
+Service()
 module.exports = Service;

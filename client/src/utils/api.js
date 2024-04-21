@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export const getUserFullInfo = async (initialData) => {
+export const getUserFullInfo = async (initialData, id) => {
   const init = [...initialData];
   const data = init.map((i) => i.user_id);
 
   try {
     const req = await axios.get('http://localhost:8080', {
-      params: { type: 'user', data },
+      params: { type: 'user', data, id },
     });
 
     if (req.status === 200) {

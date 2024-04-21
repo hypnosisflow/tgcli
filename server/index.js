@@ -3,7 +3,7 @@ const cors = require("cors");
 const client = require("./db");
 const Service = require("./service");
 
-const PORT = process.env.PORT || 5050;
+const PORT = 5050;
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.get("/", async (req, res) => {
 
   if (type === "user") {
     try {
-      const response = await service.getUsers(data);
+      const response = await service.getUsers(data, id);
       console.log("user", response);
       res.send({
         response: response,
