@@ -5,12 +5,12 @@ export const getUserFullInfo = async (initialData, id) => {
   const data = init.map((i) => i.user_id);
 
   try {
-    const req = await axios.get('http://localhost:8080', {
+    const req = await axios.get('https://server-orcin-omega.vercel.app/', {
       params: { type: 'user', data, id },
     });
 
     if (req.status === 200) {
-      const {response}  = req.data;
+      const { response } = req.data;
       const itemsUpdated = init.map((i) => {
         const item = response.filter((j) => j.user_id === i.user_id);
         return { ...item[0], ...i };
@@ -20,7 +20,6 @@ export const getUserFullInfo = async (initialData, id) => {
 
       return itemsUpdated;
     }
-    throw new Error('database request error');
   } catch (error) {
     console.log('fetchDB error', error);
   }
@@ -29,18 +28,19 @@ export const getUserFullInfo = async (initialData, id) => {
 export const getChatData = async (period, id) => {
   try {
     const date = new Date();
-    const req = await axios.get('http://localhost:8080', {
-      // todo: period 
+    const req = await axios.get('https://server-orcin-omega.vercel.app/', {
+      // todo: period
       params: { type: 'chat', period, id },
     });
     if (req.status === 200) {
       return {
-        data: req.data.response, id, period, date,
+        data: req.data.response,
+        id,
+        period,
+        date,
       };
     }
-    throw new Error('data request error');
   } catch (error) {
     console.log(error);
   }
 };
-

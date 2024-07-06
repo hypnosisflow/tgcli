@@ -12,7 +12,6 @@ const setPeriod = require("./helpers/date");
 
 const chatId = "-1001529421031";
 
-
 const stringSession = process.env.STRING_SESSION;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
@@ -23,7 +22,7 @@ async function Service() {
     +apiId,
     apiHash,
     {
-      connectionRetries: 1,
+      connectionRetries: 5,
     }
   );
 
@@ -34,7 +33,7 @@ async function Service() {
     onError: (err) => console.log(err),
   });
 
-
+  console.log(client.session.save());
 
   console.log("You should now be connected.");
 
@@ -127,7 +126,7 @@ async function Service() {
     let lastItemDate = Date.now();
     let offset = 0;
 
-    // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки 
+    // todo: засетить структуру периодов когда мы не пикаем месяца, а отрезки
 
     while (lastItemDate > target.firstDay) {
       const history = await client.invoke(
@@ -144,12 +143,13 @@ async function Service() {
         break;
       }
 
-      lastItemDate = history.messages[length - 1].date ;
+      lastItemDate = history.messages[length - 1].date;
       offset = history.messages[length - 1].id;
       newFullArray.push(...history.messages);
     }
     const messagesUntilDate = newFullArray.filter(
-      (message) =>  message.date >= target.firstDay);
+      (message) => message.date >= target.firstDay
+    );
     const usersWithMsgsList = generateList(messagesUntilDate);
     const chatUsersInfo = getSortedUsersInfo(usersWithMsgsList).sort(
       (a, b) => b.msgs?.length - a.msgs?.length
@@ -189,5 +189,4 @@ async function Service() {
   return { getChannel, getChat, getUsers };
 }
 
-Service()
 module.exports = Service;
